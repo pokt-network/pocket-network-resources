@@ -1,4 +1,4 @@
-# pocket-network-resources
+# Pocket Network Resources
 Common Resources in use on the Pocket Network Protocol
 
 ## Sauron Access
