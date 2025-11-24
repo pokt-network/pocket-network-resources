@@ -1,6 +1,12 @@
 # Pocket Network Resources
 Common Resources in use on the Pocket Network Protocol
 
+## Network Snapshots
+
+- Main snapshots dashboard: https://sync.easy2stake.com/d/ce1jmvhesy1hce/state-sync-server?var-chain_id=pocket
+- Stratos downloader for fast decentralized snapshot sync: https://github.com/easy2stake/poktsnap/tree/main/oneshot-downloader
+- Backup http resource: https://snaps.easy2stake.com/pocket/
+
 ## Sauron Access
 
 #### Mainnet
