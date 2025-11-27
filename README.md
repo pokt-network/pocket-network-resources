@@ -27,11 +27,11 @@ This section describes the node distribution for the Pocket Network Mainnet
 
 | Network   | Node Type   | Operator      | Region   | Provider    | Count |
 |-----------|-------------|---------------|----------|-------------|-------|
-| Mainnet   | Seed        | PNF           | EU       | Hetzner     | 1     |
+| Mainnet   | Seed        | PNF           | EU       | Hetzner     | 3     |
 | Mainnet   | Seed        | NodeFleet     | EU       | Velia       | 1     |
 | Mainnet   | Seed        | NodeFleet     | US       | Velia       | 1     |
 | --------- | ----------- | ------------- | -------- | ----------- | ----- |
-|           |             |               |          |             | 3     |
+|           |             |               |          |             | 5     |
 | --------- | ----------- | ------------- | -------- | ----------- | ----- |
 
 #### Validators:
@@ -40,22 +40,28 @@ Any under our control under this cluster.
 
 #### Seed:
 - 0ef6de745dec386259a1684b3fb766cdf9fc2e1c@seed-one.p2p.infra.pocket.network:26662
+- e3f1a09e045433199c94172ef0d6fc9ab7212ad7@seed-two.p2p.infra.pocket.network:26663
+- ba32c91950451643b394c487fc15ab4b75364e06@seed-three.p2p.infra.pocket.network:26664
 
 #### P2P Gateway Configuration
 
 Each seed node advertises a unique external port through the P2P gateway, mapping to the internal pod port 26656.
 
-| Seed     | External Address                        | Gateway Listener                 | Internal Pod Port | Status      |
-|----------|-----------------------------------------|----------------------------------|-------------------|-------------|
-| seed-one | seed-one.p2p.infra.pocket.network:26662 | tcp-p2p-mainnet-seed-one (26662) | 26662             | ✅ Connected |
+| Seed       | External Address                          | Gateway Listener                   | Internal Pod Port |
+|------------|-------------------------------------------|------------------------------------|-------------------|
+| seed-one   | seed-one.p2p.infra.pocket.network:26662   | tcp-p2p-mainnet-seed-one (26662)   | 26656             |
+| seed-two   | seed-two.p2p.infra.pocket.network:26663   | tcp-p2p-mainnet-seed-two (26663)   | 26656             |
+| seed-three | seed-three.p2p.infra.pocket.network:26664 | tcp-p2p-mainnet-seed-three (26664) | 26656             |
 
 #### Web Gateway (HTTPS) Endpoints
 
 All seed nodes expose web services through the HTTPS gateway with HTTP/2 support.
 
-| Seed     | RPC Endpoint                      | API Endpoint                      | gRPC Endpoint                      |
-|----------|-----------------------------------|-----------------------------------|------------------------------------|
-| seed-one | rpc-seed-one.infra.pocket.network | api-seed-one.infra.pocket.network | grpc-seed-one.infra.pocket.network |
+| Seed       | RPC Endpoint                        | API Endpoint                        | gRPC Endpoint                        |
+|------------|-------------------------------------|-------------------------------------|--------------------------------------|
+| seed-one   | rpc-seed-one.infra.pocket.network   | api-seed-one.infra.pocket.network   | grpc-seed-one.infra.pocket.network   |
+| seed-two   | rpc-seed-two.infra.pocket.network   | api-seed-two.infra.pocket.network   | grpc-seed-two.infra.pocket.network   |
+| seed-three | rpc-seed-three.infra.pocket.network | api-seed-three.infra.pocket.network | grpc-seed-three.infra.pocket.network |
 
 
 ## Testnet Nodes Distribution
