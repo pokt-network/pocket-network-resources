@@ -3,1518 +3,1517 @@
 # ==========================================
 # Generated for all supported chains at api.pocket.network
 # Last updated: December 2025
-# 
-# CHANGELOG from previous version:
-# - FIXED: Hyperliquid moved from Cosmos to EVM (it's an EVM chain)
-# - ADDED: Fetch.ai (Cosmos chain)
-# - ADDED: eth_syncing checks for critical EVM chains
-# - ADDED: Archival checks for high-value L2s
-# - ADDED: Known limitation note for Hyperliquid eth_call bug
-# - KEPT: ethereum-holesky, avalanche-dfk, mantle (deprecated from portal but retained for operators)
+#
+# Service IDs match the subdomain of each endpoint URL
+# Template format: gateway/health_check_config.go
+#
+# CHANGELOG:
+# - Service IDs corrected to match endpoint subdomains
+# - Template updated to match PATH gateway SDK format
+# - Added `type` field (required): jsonrpc, rest, websocket, grpc
+# - Added `method` field for HTTP-based checks
+# - Added `archival` boolean for archival-specific checks
+# - Hyperliquid correctly categorized as EVM
+# - Added Fetch.ai (Cosmos chain)
 # ==========================================
 
 # ==========================================
 # EVM MAINNET CHAINS
 # ==========================================
 
-- service_id: ethereum
-  check_interval: "10s"
+- service_id: eth
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "eth_syncing"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1004,"method":"eth_syncing"}'
+      timeout: 5s
+      reputation_signal: major_error
+    - name: eth_syncing
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_syncing","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    # Archival check - queries balance at historical block ~15M (early 2022)
+      timeout: 5s
+      reputation_signal: major_error
+    # Archival check - queries balance at historical block 15,000,000 (early 2022)
     # Non-archival nodes will fail with "missing trie node" error
-    # - Address: 0x28C6c06298d514Db089934071355E5743bf21d60 (Binance hot wallet)
-    # - Block: 0xe4e1c0 (block 15,000,000 - early 2022)
-    # - Expected balance: 0x314214a541a8e719f516 (~14,700 ETH)
-    - name: "eth_archival"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1003,"method":"eth_getBalance","params":["0x28C6c06298d514Db089934071355E5743bf21d60","0xe4e1c0"]}'
+    # Address: 0x28C6c06298d514Db089934071355E5743bf21d60 (Binance hot wallet)
+    # Block: 0xe4e1c0 (15,000,000)
+    # Expected balance: 0x314214a541a8e719f516 (~14,700 ETH)
+    - name: eth_archival
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_getBalance","params":["0x28C6c06298d514Db089934071355E5743bf21d60","0xe4e1c0"]}'
       expected_status_code: 200
       expected_response_contains: "0x314214a541a8e719f516"
-      timeout: "10s"
-      reputation_signal: "critical_error"
+      timeout: 10s
+      archival: true
+      reputation_signal: critical_error
 
-- service_id: polygon
-  check_interval: "10s"
+- service_id: poly
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "eth_syncing"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1004,"method":"eth_syncing"}'
+      timeout: 5s
+      reputation_signal: major_error
+    - name: eth_syncing
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_syncing","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: bsc
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
-- service_id: avalanche
-  check_interval: "10s"
+- service_id: avax
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 # DEPRECATED from public portal but retained for operators
-- service_id: avalanche-dfk
-  check_interval: "10s"
+- service_id: avax-dfk
+  check_interval: 10s
   enabled: true
-  deprecated: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
-- service_id: berachain
-  check_interval: "10s"
+- service_id: bera
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: sonic
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: ink
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: moonbeam
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: moonriver
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: gnosis
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: celo
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: fantom
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: harmony
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: fuse
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: iotex
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: oasys
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: kaia
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: xrplevm
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
-# FIXED: Hyperliquid is an EVM chain, not Cosmos
-# KNOWN ISSUE: eth_call ignores block number parameter (returns latest instead of historical)
+# Hyperliquid is an EVM chain (not Cosmos)
+# KNOWN ISSUE: eth_call ignores block number parameter - always returns latest block context
 - service_id: hyperliquid
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
-  known_limitations:
-    - "eth_call ignores block number parameter - always returns latest block context"
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 # ==========================================
 # LAYER 2 CHAINS
 # ==========================================
 
-- service_id: arbitrum
-  check_interval: "10s"
+- service_id: arb-one
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "eth_syncing"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1004,"method":"eth_syncing"}'
+      timeout: 5s
+      reputation_signal: major_error
+    - name: eth_syncing
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_syncing","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
-- service_id: optimism
-  check_interval: "10s"
+- service_id: op
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "eth_syncing"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1004,"method":"eth_syncing"}'
+      timeout: 5s
+      reputation_signal: major_error
+    - name: eth_syncing
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_syncing","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: base
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "eth_syncing"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1004,"method":"eth_syncing"}'
+      timeout: 5s
+      reputation_signal: major_error
+    - name: eth_syncing
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_syncing","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
-- service_id: polygon-zkevm
-  check_interval: "10s"
+- service_id: poly-zkevm
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
-- service_id: zksync
-  check_interval: "10s"
+- service_id: zksync-era
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
-- service_id: zklink
-  check_interval: "10s"
+- service_id: zklink-nova
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: scroll
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: linea
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 # DEPRECATED from public portal but retained for operators
 - service_id: mantle
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
-  deprecated: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: blast
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: boba
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: metis
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: taiko
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: unichain
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: opbnb
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: fraxtal
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 # ==========================================
 # TESTNET CHAINS
 # ==========================================
 
-- service_id: ethereum-sepolia
-  check_interval: "15s"
+- service_id: eth-sepolia-testnet
+  check_interval: 15s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 # DEPRECATED from public portal but retained for operators
-- service_id: ethereum-holesky
-  check_interval: "15s"
+- service_id: eth-holesky-testnet
+  check_interval: 15s
   enabled: true
-  deprecated: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
-- service_id: polygon-amoy
-  check_interval: "15s"
+- service_id: poly-amoy-testnet
+  check_interval: 15s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
-- service_id: arbitrum-sepolia
-  check_interval: "15s"
+- service_id: arb-sepolia-testnet
+  check_interval: 15s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
-- service_id: optimism-sepolia
-  check_interval: "15s"
+- service_id: op-sepolia-testnet
+  check_interval: 15s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
-- service_id: base-sepolia
-  check_interval: "15s"
+- service_id: base-sepolia-testnet
+  check_interval: 15s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: xrplevm-testnet
-  check_interval: "15s"
+  check_interval: 15s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
-- service_id: giwa-sepolia
-  check_interval: "15s"
+- service_id: giwa-sepolia-testnet
+  check_interval: 15s
   enabled: true
   checks:
-    - name: "eth_blockNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+    - name: eth_blockNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "eth_chainId"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: eth_chainId
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 # ==========================================
 # NON-EVM CHAINS
 # ==========================================
 
 - service_id: solana
-  check_interval: "10s"
+  check_interval: 10s
   enabled: true
   checks:
-    - name: "solana_getHealth"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"getHealth"}'
+    - name: getHealth
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"getHealth"}'
       expected_status_code: 200
       expected_response_contains: '"ok"'
-      timeout: "5s"
-      reputation_signal: "critical_error"
-    - name: "solana_getBlockHeight"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"getBlockHeight"}'
+      timeout: 5s
+      reputation_signal: critical_error
+    - name: getBlockHeight
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"getBlockHeight"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: near
-  check_interval: "15s"
+  check_interval: 15s
   enabled: true
   checks:
-    - name: "near_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"status","params":[]}'
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "near_block"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"block","params":{"finality":"final"}}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: block
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"block","params":{"finality":"final"}}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: sui
-  check_interval: "15s"
+  check_interval: 15s
   enabled: true
   checks:
-    - name: "sui_getLatestCheckpointSequenceNumber"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1001,"method":"sui_getLatestCheckpointSequenceNumber","params":[]}'
+    - name: sui_getLatestCheckpointSequenceNumber
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"sui_getLatestCheckpointSequenceNumber","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "sui_getTotalTransactionBlocks"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":1002,"method":"sui_getTotalTransactionBlocks","params":[]}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: sui_getTotalTransactionBlocks
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"sui_getTotalTransactionBlocks","params":[]}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
+      timeout: 5s
+      reputation_signal: major_error
 
 - service_id: tron
-  check_interval: "15s"
+  check_interval: 15s
   enabled: true
   checks:
-    - name: "tron_getNowBlock"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/wallet/getnowblock"
+    - name: getNowBlock
+      type: rest
+      method: POST
+      path: /wallet/getnowblock
       body: '{}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
+      timeout: 5s
+      reputation_signal: minor_error
 
 # ==========================================
 # COSMOS SDK CHAINS
 # ==========================================
 
 - service_id: akash
-  check_interval: "30s"
+  check_interval: 30s
   enabled: true
   checks:
-    - name: "cometbft_health"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2001,"method":"health"}'
+    - name: health
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "cometbft_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2002,"method":"status"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "cosmos_syncing"
-      type: "rest"
-      method: "GET"
-      path: "/cosmos/base/tendermint/v1beta1/syncing"
+      timeout: 5s
+      reputation_signal: major_error
+    - name: syncing
+      type: rest
+      method: GET
+      path: /cosmos/base/tendermint/v1beta1/syncing
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "critical_error"
+      timeout: 5s
+      reputation_signal: critical_error
 
 - service_id: atomone
-  check_interval: "30s"
+  check_interval: 30s
   enabled: true
   checks:
-    - name: "cometbft_health"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2001,"method":"health"}'
+    - name: health
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "cometbft_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2002,"method":"status"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "cosmos_syncing"
-      type: "rest"
-      method: "GET"
-      path: "/cosmos/base/tendermint/v1beta1/syncing"
+      timeout: 5s
+      reputation_signal: major_error
+    - name: syncing
+      type: rest
+      method: GET
+      path: /cosmos/base/tendermint/v1beta1/syncing
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "critical_error"
+      timeout: 5s
+      reputation_signal: critical_error
 
 - service_id: cheqd
-  check_interval: "30s"
+  check_interval: 30s
   enabled: true
   checks:
-    - name: "cometbft_health"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2001,"method":"health"}'
+    - name: health
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "cometbft_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2002,"method":"status"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "cosmos_syncing"
-      type: "rest"
-      method: "GET"
-      path: "/cosmos/base/tendermint/v1beta1/syncing"
+      timeout: 5s
+      reputation_signal: major_error
+    - name: syncing
+      type: rest
+      method: GET
+      path: /cosmos/base/tendermint/v1beta1/syncing
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "critical_error"
+      timeout: 5s
+      reputation_signal: critical_error
 
 - service_id: chihuahua
-  check_interval: "30s"
+  check_interval: 30s
   enabled: true
   checks:
-    - name: "cometbft_health"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2001,"method":"health"}'
+    - name: health
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "cometbft_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2002,"method":"status"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "cosmos_syncing"
-      type: "rest"
-      method: "GET"
-      path: "/cosmos/base/tendermint/v1beta1/syncing"
+      timeout: 5s
+      reputation_signal: major_error
+    - name: syncing
+      type: rest
+      method: GET
+      path: /cosmos/base/tendermint/v1beta1/syncing
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "critical_error"
+      timeout: 5s
+      reputation_signal: critical_error
 
-# ADDED: Fetch.ai was missing from previous config
 - service_id: fetch
-  check_interval: "30s"
+  check_interval: 30s
   enabled: true
   checks:
-    - name: "cometbft_health"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2001,"method":"health"}'
+    - name: health
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "cometbft_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2002,"method":"status"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "cosmos_syncing"
-      type: "rest"
-      method: "GET"
-      path: "/cosmos/base/tendermint/v1beta1/syncing"
+      timeout: 5s
+      reputation_signal: major_error
+    - name: syncing
+      type: rest
+      method: GET
+      path: /cosmos/base/tendermint/v1beta1/syncing
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "critical_error"
+      timeout: 5s
+      reputation_signal: critical_error
 
 - service_id: jackal
-  check_interval: "30s"
+  check_interval: 30s
   enabled: true
   checks:
-    - name: "cometbft_health"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2001,"method":"health"}'
+    - name: health
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "cometbft_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2002,"method":"status"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "cosmos_syncing"
-      type: "rest"
-      method: "GET"
-      path: "/cosmos/base/tendermint/v1beta1/syncing"
+      timeout: 5s
+      reputation_signal: major_error
+    - name: syncing
+      type: rest
+      method: GET
+      path: /cosmos/base/tendermint/v1beta1/syncing
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "critical_error"
+      timeout: 5s
+      reputation_signal: critical_error
 
 - service_id: juno
-  check_interval: "30s"
+  check_interval: 30s
   enabled: true
   checks:
-    - name: "cometbft_health"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2001,"method":"health"}'
+    - name: health
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "cometbft_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2002,"method":"status"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "cosmos_syncing"
-      type: "rest"
-      method: "GET"
-      path: "/cosmos/base/tendermint/v1beta1/syncing"
+      timeout: 5s
+      reputation_signal: major_error
+    - name: syncing
+      type: rest
+      method: GET
+      path: /cosmos/base/tendermint/v1beta1/syncing
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "critical_error"
+      timeout: 5s
+      reputation_signal: critical_error
 
 - service_id: kava
-  check_interval: "30s"
+  check_interval: 30s
   enabled: true
   checks:
-    - name: "cometbft_health"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2001,"method":"health"}'
+    - name: health
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "cometbft_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2002,"method":"status"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "cosmos_syncing"
-      type: "rest"
-      method: "GET"
-      path: "/cosmos/base/tendermint/v1beta1/syncing"
+      timeout: 5s
+      reputation_signal: major_error
+    - name: syncing
+      type: rest
+      method: GET
+      path: /cosmos/base/tendermint/v1beta1/syncing
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "critical_error"
+      timeout: 5s
+      reputation_signal: critical_error
 
 - service_id: osmosis
-  check_interval: "30s"
+  check_interval: 30s
   enabled: true
   checks:
-    - name: "cometbft_health"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2001,"method":"health"}'
+    - name: health
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "cometbft_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2002,"method":"status"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "cosmos_syncing"
-      type: "rest"
-      method: "GET"
-      path: "/cosmos/base/tendermint/v1beta1/syncing"
+      timeout: 5s
+      reputation_signal: major_error
+    - name: syncing
+      type: rest
+      method: GET
+      path: /cosmos/base/tendermint/v1beta1/syncing
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "critical_error"
+      timeout: 5s
+      reputation_signal: critical_error
 
 - service_id: persistence
-  check_interval: "30s"
+  check_interval: 30s
   enabled: true
   checks:
-    - name: "cometbft_health"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2001,"method":"health"}'
+    - name: health
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "cometbft_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2002,"method":"status"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "cosmos_syncing"
-      type: "rest"
-      method: "GET"
-      path: "/cosmos/base/tendermint/v1beta1/syncing"
+      timeout: 5s
+      reputation_signal: major_error
+    - name: syncing
+      type: rest
+      method: GET
+      path: /cosmos/base/tendermint/v1beta1/syncing
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "critical_error"
+      timeout: 5s
+      reputation_signal: critical_error
 
 - service_id: pocket
-  check_interval: "30s"
+  check_interval: 30s
   enabled: true
   checks:
-    - name: "cometbft_health"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2001,"method":"health"}'
+    - name: health
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "cometbft_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2002,"method":"status"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "cosmos_syncing"
-      type: "rest"
-      method: "GET"
-      path: "/cosmos/base/tendermint/v1beta1/syncing"
+      timeout: 5s
+      reputation_signal: major_error
+    - name: syncing
+      type: rest
+      method: GET
+      path: /cosmos/base/tendermint/v1beta1/syncing
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "critical_error"
+      timeout: 5s
+      reputation_signal: critical_error
 
 - service_id: seda
-  check_interval: "30s"
+  check_interval: 30s
   enabled: true
   checks:
-    - name: "cometbft_health"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2001,"method":"health"}'
+    - name: health
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "cometbft_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2002,"method":"status"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "cosmos_syncing"
-      type: "rest"
-      method: "GET"
-      path: "/cosmos/base/tendermint/v1beta1/syncing"
+      timeout: 5s
+      reputation_signal: major_error
+    - name: syncing
+      type: rest
+      method: GET
+      path: /cosmos/base/tendermint/v1beta1/syncing
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "critical_error"
+      timeout: 5s
+      reputation_signal: critical_error
 
 - service_id: sei
-  check_interval: "30s"
+  check_interval: 30s
   enabled: true
   checks:
-    - name: "cometbft_health"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2001,"method":"health"}'
+    - name: health
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "cometbft_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2002,"method":"status"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "cosmos_syncing"
-      type: "rest"
-      method: "GET"
-      path: "/cosmos/base/tendermint/v1beta1/syncing"
+      timeout: 5s
+      reputation_signal: major_error
+    - name: syncing
+      type: rest
+      method: GET
+      path: /cosmos/base/tendermint/v1beta1/syncing
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "critical_error"
+      timeout: 5s
+      reputation_signal: critical_error
 
 - service_id: shentu
-  check_interval: "30s"
+  check_interval: 30s
   enabled: true
   checks:
-    - name: "cometbft_health"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2001,"method":"health"}'
+    - name: health
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "cometbft_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2002,"method":"status"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "cosmos_syncing"
-      type: "rest"
-      method: "GET"
-      path: "/cosmos/base/tendermint/v1beta1/syncing"
+      timeout: 5s
+      reputation_signal: major_error
+    - name: syncing
+      type: rest
+      method: GET
+      path: /cosmos/base/tendermint/v1beta1/syncing
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "critical_error"
+      timeout: 5s
+      reputation_signal: critical_error
 
 - service_id: stargaze
-  check_interval: "30s"
+  check_interval: 30s
   enabled: true
   checks:
-    - name: "cometbft_health"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2001,"method":"health"}'
+    - name: health
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "minor_error"
-    - name: "cometbft_status"
-      type: "jsonrpc"
-      method: "POST"
-      path: "/"
-      body: '{"jsonrpc":"2.0","id":2002,"method":"status"}'
+      timeout: 5s
+      reputation_signal: minor_error
+    - name: status
+      type: jsonrpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "major_error"
-    - name: "cosmos_syncing"
-      type: "rest"
-      method: "GET"
-      path: "/cosmos/base/tendermint/v1beta1/syncing"
+      timeout: 5s
+      reputation_signal: major_error
+    - name: syncing
+      type: rest
+      method: GET
+      path: /cosmos/base/tendermint/v1beta1/syncing
       expected_status_code: 200
-      timeout: "5s"
-      reputation_signal: "critical_error"
+      timeout: 5s
+      reputation_signal: critical_error
