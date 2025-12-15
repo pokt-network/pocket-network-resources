@@ -10,7 +10,7 @@
 # - ADDED: eth_syncing checks for critical EVM chains
 # - ADDED: Archival checks for high-value L2s
 # - ADDED: Known limitation note for Hyperliquid eth_call bug
-# - REMOVED: ethereum-holesky, avalanche-dfk, mantle (deprecated from portal)
+# - KEPT: ethereum-holesky, avalanche-dfk, mantle (deprecated from portal but retained for operators)
 # ==========================================
 
 # ==========================================
@@ -113,6 +113,29 @@
 - service_id: avalanche
   check_interval: "10s"
   enabled: true
+  checks:
+    - name: "eth_blockNumber"
+      type: "jsonrpc"
+      method: "POST"
+      path: "/"
+      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+      expected_status_code: 200
+      timeout: "5s"
+      reputation_signal: "minor_error"
+    - name: "eth_chainId"
+      type: "jsonrpc"
+      method: "POST"
+      path: "/"
+      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      expected_status_code: 200
+      timeout: "5s"
+      reputation_signal: "major_error"
+
+# DEPRECATED from public portal but retained for operators
+- service_id: avalanche-dfk
+  check_interval: "10s"
+  enabled: true
+  deprecated: true
   checks:
     - name: "eth_blockNumber"
       type: "jsonrpc"
@@ -646,6 +669,29 @@
       timeout: "5s"
       reputation_signal: "major_error"
 
+# DEPRECATED from public portal but retained for operators
+- service_id: mantle
+  check_interval: "10s"
+  enabled: true
+  deprecated: true
+  checks:
+    - name: "eth_blockNumber"
+      type: "jsonrpc"
+      method: "POST"
+      path: "/"
+      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+      expected_status_code: 200
+      timeout: "5s"
+      reputation_signal: "minor_error"
+    - name: "eth_chainId"
+      type: "jsonrpc"
+      method: "POST"
+      path: "/"
+      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      expected_status_code: 200
+      timeout: "5s"
+      reputation_signal: "major_error"
+
 - service_id: blast
   check_interval: "10s"
   enabled: true
@@ -800,6 +846,29 @@
 - service_id: ethereum-sepolia
   check_interval: "15s"
   enabled: true
+  checks:
+    - name: "eth_blockNumber"
+      type: "jsonrpc"
+      method: "POST"
+      path: "/"
+      body: '{"jsonrpc":"2.0","id":1002,"method":"eth_blockNumber"}'
+      expected_status_code: 200
+      timeout: "5s"
+      reputation_signal: "minor_error"
+    - name: "eth_chainId"
+      type: "jsonrpc"
+      method: "POST"
+      path: "/"
+      body: '{"jsonrpc":"2.0","id":1001,"method":"eth_chainId"}'
+      expected_status_code: 200
+      timeout: "5s"
+      reputation_signal: "major_error"
+
+# DEPRECATED from public portal but retained for operators
+- service_id: ethereum-holesky
+  check_interval: "15s"
+  enabled: true
+  deprecated: true
   checks:
     - name: "eth_blockNumber"
       type: "jsonrpc"
