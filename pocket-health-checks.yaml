@@ -15,6 +15,7 @@
 # - Added `archival` boolean for archival-specific checks
 # - Hyperliquid correctly categorized as EVM
 # - Added Fetch.ai (Cosmos chain)
+# - Updated health check rpc type
 # ==========================================
 
 # ==========================================
@@ -26,7 +27,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -34,7 +35,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -42,7 +43,7 @@
       timeout: 5s
       reputation_signal: major_error
     - name: eth_syncing
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_syncing","params":[]}'
@@ -55,7 +56,7 @@
     # Block: 0xe4e1c0 (15,000,000)
     # Expected balance: 0x314214a541a8e719f516 (~14,700 ETH)
     - name: eth_archival
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_getBalance","params":["0x28C6c06298d514Db089934071355E5743bf21d60","0xe4e1c0"]}'
@@ -70,7 +71,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -78,7 +79,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -86,7 +87,7 @@
       timeout: 5s
       reputation_signal: major_error
     - name: eth_syncing
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_syncing","params":[]}'
@@ -99,7 +100,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -107,7 +108,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -120,7 +121,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -128,7 +129,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -142,7 +143,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -150,7 +151,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -163,7 +164,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -171,7 +172,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -184,7 +185,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -192,7 +193,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -205,7 +206,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -213,7 +214,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -226,7 +227,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -234,7 +235,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -247,7 +248,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -255,7 +256,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -268,7 +269,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -276,7 +277,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -289,7 +290,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -297,7 +298,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -310,7 +311,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -318,7 +319,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -331,7 +332,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -339,7 +340,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -352,7 +353,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -360,7 +361,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -373,7 +374,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -381,7 +382,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -394,7 +395,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -402,7 +403,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -415,7 +416,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -423,7 +424,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -436,7 +437,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -444,7 +445,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -459,7 +460,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -467,7 +468,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -484,7 +485,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -492,7 +493,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -500,7 +501,7 @@
       timeout: 5s
       reputation_signal: major_error
     - name: eth_syncing
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_syncing","params":[]}'
@@ -513,7 +514,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -521,7 +522,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -529,7 +530,7 @@
       timeout: 5s
       reputation_signal: major_error
     - name: eth_syncing
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_syncing","params":[]}'
@@ -542,7 +543,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -550,7 +551,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -558,7 +559,7 @@
       timeout: 5s
       reputation_signal: major_error
     - name: eth_syncing
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_syncing","params":[]}'
@@ -571,7 +572,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -579,7 +580,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -592,7 +593,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -600,7 +601,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -613,7 +614,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -621,7 +622,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -634,7 +635,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -642,7 +643,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -655,7 +656,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -663,7 +664,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -677,7 +678,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -685,7 +686,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -698,7 +699,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -706,7 +707,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -719,7 +720,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -727,7 +728,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -740,7 +741,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -748,7 +749,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -761,7 +762,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -769,7 +770,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -782,7 +783,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -790,7 +791,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -803,7 +804,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -811,7 +812,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -824,7 +825,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -832,7 +833,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -849,7 +850,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -857,7 +858,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -871,7 +872,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -879,7 +880,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -892,7 +893,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -900,7 +901,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -913,7 +914,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -921,7 +922,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -934,7 +935,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -942,7 +943,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -955,7 +956,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -963,7 +964,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -976,7 +977,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -984,7 +985,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -997,7 +998,7 @@
   enabled: true
   checks:
     - name: eth_blockNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
@@ -1005,7 +1006,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: eth_chainId
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
@@ -1022,7 +1023,7 @@
   enabled: true
   checks:
     - name: getHealth
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"getHealth"}'
@@ -1031,7 +1032,7 @@
       timeout: 5s
       reputation_signal: critical_error
     - name: getBlockHeight
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"getBlockHeight"}'
@@ -1044,7 +1045,7 @@
   enabled: true
   checks:
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status","params":[]}'
@@ -1052,7 +1053,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: block
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"block","params":{"finality":"final"}}'
@@ -1065,7 +1066,7 @@
   enabled: true
   checks:
     - name: sui_getLatestCheckpointSequenceNumber
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"sui_getLatestCheckpointSequenceNumber","params":[]}'
@@ -1073,7 +1074,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: sui_getTotalTransactionBlocks
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"sui_getTotalTransactionBlocks","params":[]}'
@@ -1103,7 +1104,7 @@
   enabled: true
   checks:
     - name: health
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
@@ -1111,7 +1112,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
@@ -1131,7 +1132,7 @@
   enabled: true
   checks:
     - name: health
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
@@ -1139,7 +1140,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
@@ -1159,7 +1160,7 @@
   enabled: true
   checks:
     - name: health
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
@@ -1167,7 +1168,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
@@ -1187,7 +1188,7 @@
   enabled: true
   checks:
     - name: health
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
@@ -1195,7 +1196,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
@@ -1215,7 +1216,7 @@
   enabled: true
   checks:
     - name: health
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
@@ -1223,7 +1224,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
@@ -1243,7 +1244,7 @@
   enabled: true
   checks:
     - name: health
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
@@ -1251,7 +1252,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
@@ -1271,7 +1272,7 @@
   enabled: true
   checks:
     - name: health
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
@@ -1279,7 +1280,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
@@ -1299,7 +1300,7 @@
   enabled: true
   checks:
     - name: health
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
@@ -1307,7 +1308,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
@@ -1327,7 +1328,7 @@
   enabled: true
   checks:
     - name: health
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
@@ -1335,7 +1336,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
@@ -1355,7 +1356,7 @@
   enabled: true
   checks:
     - name: health
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
@@ -1363,7 +1364,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
@@ -1383,7 +1384,7 @@
   enabled: true
   checks:
     - name: health
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
@@ -1391,7 +1392,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
@@ -1411,7 +1412,7 @@
   enabled: true
   checks:
     - name: health
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
@@ -1419,7 +1420,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
@@ -1439,7 +1440,7 @@
   enabled: true
   checks:
     - name: health
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
@@ -1447,7 +1448,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
@@ -1467,7 +1468,7 @@
   enabled: true
   checks:
     - name: health
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
@@ -1475,7 +1476,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
@@ -1495,7 +1496,7 @@
   enabled: true
   checks:
     - name: health
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"health"}'
@@ -1503,7 +1504,7 @@
       timeout: 5s
       reputation_signal: minor_error
     - name: status
-      type: jsonrpc
+      type: json_rpc
       method: POST
       path: /
       body: '{"jsonrpc":"2.0","id":1,"method":"status"}'
