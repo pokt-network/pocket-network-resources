@@ -1014,6 +1014,19 @@
       timeout: 5s
       reputation_signal: major_error
 
+- service_id: tron
+  check_interval: 15s
+  enabled: true
+  checks:
+    - name: getNowBlock
+      type: json_rpc
+      method: POST
+      path: /wallet/getnowblock
+      body: '{}'
+      expected_status_code: 200
+      timeout: 5s
+      reputation_signal: minor_error
+
 # ==========================================
 # NON-EVM CHAINS
 # ==========================================
@@ -1081,19 +1094,6 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
-
-- service_id: tron
-  check_interval: 15s
-  enabled: true
-  checks:
-    - name: getNowBlock
-      type: rest
-      method: POST
-      path: /wallet/getnowblock
-      body: '{}'
-      expected_status_code: 200
-      timeout: 5s
-      reputation_signal: minor_error
 
 # ==========================================
 # COSMOS SDK CHAINS
