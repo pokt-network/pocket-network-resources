@@ -708,6 +708,28 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      # NEW: Block height validation against trusted external endpoint                                                                                                 
+    # This catches nodes that are stuck at old block heights                                                                                                         
+    - name: eth_blockNumber_height_validation
+      type: json_rpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
+      expected_status_code: 200
+      timeout: 5s
+      block_height_validation:
+        operator: ">="
+        reference:
+          type: "external"
+          endpoint: "https://base.drpc.org"  # Replace                                                                   
+          method: "eth_blockNumber"
+          tolerance: 50  # Allow up to 50 blocks behind                                                                                                       
+          cache_duration: 10s  # Cache external response for 10s                                                                                                     
+          timeout: 5s
+          # Optional: add authentication if using private endpoint                                                                                                   
+          # headers:                                                                                                                                                 
+          #   Authorization: "Bearer YOUR_TOKEN"                                                                                                                     
+      reputation_signal: critical_error  # Aggressive filtering for stuck nodes   
 
 - service_id: poly-zkevm
   check_interval: 10s
