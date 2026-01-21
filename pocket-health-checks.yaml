@@ -483,6 +483,7 @@
 - service_id: arb-one
   check_interval: 10s
   enabled: true
+  sync_allowance: 50  # Allow nodes to be up to 50 blocks behind                                                                                                     
   checks:
     - name: eth_blockNumber
       type: json_rpc
