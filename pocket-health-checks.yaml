@@ -485,6 +485,7 @@
   enabled: true
   sync_allowance: 50  # Allow nodes to be up to 50 blocks behind                                                                                                     
   checks:
+    # Basic liveness check - eth_blockNumber                                                                                                                         
     - name: eth_blockNumber
       type: json_rpc
       method: POST
@@ -493,6 +494,8 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+    
+    # Chain ID validation                                                                                                                                            
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -501,6 +504,8 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+    
+    # Sync status check                                                                                                                                              
     - name: eth_syncing
       type: json_rpc
       method: POST
@@ -509,6 +514,142 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+    
+    # NEW: Block height validation against trusted external endpoint                                                                                                 
+    # This catches nodes that are stuck at old block heights                                                                                                         
+    - name: eth_blockNumber_height_validation
+      type: json_rpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
+      expected_status_code: 200
+      timeout: 5s
+      block_height_validation:
+        operator: ">="
+        reference:
+          type: "external"
+          endpoint: "https://arbitrum.drpc.org"  # Replace                                                                   
+          method: "eth_blockNumber"
+          tolerance: 50  # Allow up to 50 blocks behind                                                                                                       
+          cache_duration: 10s  # Cache external response for 10s                                                                                                     
+          timeout: 5s
+          # Optional: add authentication if using private endpoint                                                                                                   
+          # headers:                                                                                                                                                 
+          #   Authorization: "Bearer YOUR_TOKEN"                                                                                                                     
+      reputation_signal: critical_error  # Aggressive filtering for stuck nodes                                                                                      
+    
+    # NEW: Error detection for rate limits and operational issues                                                                                                    
+    # This catches endpoints returning rate limit errors, bad gateway, etc.                                                                                          
+    - name: eth_blockNumber_error_detection
+      type: json_rpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
+      expected_status_code: 200
+      timeout: 5s
+      error_detection:
+        # Detect HTTP error status codes                                                                                                                             
+        status_codes:
+          - code: 429  # Too Many Requests (rate limit)                                                                                                              
+            reputation_signal: critical_error
+          - code: 502  # Bad Gateway                                                                                                                                 
+            reputation_signal: major_error
+          - code: 503  # Service Unavailable                                                                                                                         
+            reputation_signal: major_error
+          - code: 504  # Gateway Timeout                                                                                                                             
+            reputation_signal: major_error
+        
+        # Detect error patterns in response body (case-insensitive)                                                                                                  
+        response_patterns:
+          - pattern: "rate limit"
+            reputation_signal: critical_error
+          - pattern: "exceeded your limit"
+            reputation_signal: critical_error
+          - pattern: "too many requests"
+            reputation_signal: critical_error
+          - pattern: "bad gateway"
+            reputation_signal: major_error
+          - pattern: "quota"
+            reputation_signal: critical_error
+          - pattern: "not a valid jsonrpc"
+            reputation_signal: major_error
+          - pattern: "invalid response"
+            reputation_signal: major_error
+          - pattern: "error"  # Generic error in response                                                                                                            
+            reputation_signal: major_error
+        
+        # Detect JSON-RPC error codes                                                                                                                                
+        jsonrpc_error_codes:
+          - code: -31002  # Resource exhausted (rate limit)                                                                                                          
+            reputation_signal: critical_error
+          - code: -32001  # Resource not found                                                                                                                       
+            reputation_signal: major_error
+          - code: -32700  # Parse error                                                                                                                              
+            reputation_signal: major_error
+      reputation_signal: minor_error  # Default for non-error cases                                                                                                  
+    
+    # OPTIONAL: Combined check (both height validation + error detection)                                                                                            
+    # This is the most comprehensive check - validates both stuck nodes and operational issues                                                                       
+    # - name: eth_blockNumber_comprehensive                                                                                                                            
+    #   type: json_rpc                                                                                                                                                 
+    #   method: POST                                                                                                                                                   
+    #   path: /                                                                                                                                                        
+    #   body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'                                                                                        
+    #   expected_status_code: 200                                                                                                                                      
+    #   timeout: 5s                                                                                                                                                    
+    #   # First, validate block height                                                                                                                                 
+    #   block_height_validation:                                                                                                                                       
+    #     operator: ">="                                                                                                                                               
+    #     reference:                                                                                                                                                   
+    #       type: "external"                                                                                                                                           
+    #       endpoint: "https://arb-mainnet.g.alchemy.com/v2/demo"                                                                                                      
+    #       method: "eth_blockNumber"                                                                                                                                  
+    #       tolerance: 50                                                                                                                                              
+    #       cache_duration: 10s                                                                                                                                        
+    #   # Then, check for known errors                                                                                                                                 
+    #   error_detection:                                                                                                                                               
+    #     status_codes:                                                                                                                                                
+    #       - code: 429                                                                                                                                                
+    #         reputation_signal: critical_error                                                                                                                        
+    #       - code: 502                                                                                                                                                
+    #         reputation_signal: major_error                                                                                                                           
+    #     response_patterns:                                                                                                                                           
+    #       - pattern: "rate limit"                                                                                                                                    
+    #         reputation_signal: critical_error                                                                                                                        
+    #       - pattern: "exceeded your limit"                                                                                                                           
+    #         reputation_signal: critical_error                                                                                                                        
+    #       - pattern: "bad gateway"                                                                                                                                   
+    #         reputation_signal: major_error                                                                                                                           
+    #   reputation_signal: critical_error  # Aggressive for combined check            
+# - service_id: arb-one
+#   check_interval: 10s
+#   enabled: true
+#   sync_allowance: 50  # Allow nodes to be up to 50 blocks behind                                                                                                     
+#   checks:
+#     - name: eth_blockNumber
+#       type: json_rpc
+#       method: POST
+#       path: /
+#       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
+#       expected_status_code: 200
+#       timeout: 5s
+#       reputation_signal: minor_error
+#     - name: eth_chainId
+#       type: json_rpc
+#       method: POST
+#       path: /
+#       body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
+#       expected_status_code: 200
+#       timeout: 5s
+#       reputation_signal: major_error
+#     - name: eth_syncing
+#       type: json_rpc
+#       method: POST
+#       path: /
+#       body: '{"jsonrpc":"2.0","id":1,"method":"eth_syncing","params":[]}'
+#       expected_status_code: 200
+#       timeout: 5s
+#       reputation_signal: major_error
 
 - service_id: op
   check_interval: 10s
