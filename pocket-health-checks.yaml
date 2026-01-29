@@ -2,12 +2,15 @@
 # Pocket Network Health Check Configuration
 # ==========================================
 # Generated for all supported chains at api.pocket.network
-# Last updated: December 2025
+# Last updated: January 29, 2026,
 #
 # Service IDs match the subdomain of each endpoint URL
 # Template format: gateway/health_check_config.go
 #
 # CHANGELOG:
+# - Added sync_allowance and sync_check for all chains (5 minutes of blocks)
+# - Formula: sync_allowance = ceil(300 seconds / block_time)
+# - Sources: chainspect.app, official chain docs, block explorers
 # - Service IDs corrected to match endpoint subdomains
 # - Template updated to match PATH gateway SDK format
 # - Added `type` field (required): jsonrpc, rest, websocket, grpc
@@ -23,6 +26,9 @@
 # ==========================================
 
 - service_id: eth
+  # Block time: ~12s | Source: chainspect.app, etherscan.io
+  # Formula: 300s / 12s = 25 blocks for 5 minutes
+  sync_allowance: 25
   check_interval: 10s
   enabled: true
   checks:
@@ -34,6 +40,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -67,6 +74,9 @@
       reputation_signal: critical_error
 
 - service_id: poly
+  # Block time: ~2s | Source: chainspect.app, polygonscan.com
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 10s
   enabled: true
   checks:
@@ -78,6 +88,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -96,6 +107,9 @@
       reputation_signal: major_error
 
 - service_id: bsc
+  # Block time: ~3s | Source: bscscan.com, bnbchain docs
+  # Formula: 300s / 3s = 100 blocks for 5 minutes
+  sync_allowance: 100
   check_interval: 10s
   enabled: true
   checks:
@@ -107,6 +121,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -117,6 +132,9 @@
       reputation_signal: major_error
 
 - service_id: avax
+  # Block time: ~2s | Source: chainspect.app, snowtrace.io
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 10s
   enabled: true
   checks:
@@ -128,6 +146,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -139,6 +158,9 @@
 
 # DEPRECATED from public portal but retained for operators
 - service_id: avax-dfk
+  # Block time: ~2s | Source: DFK subnet uses Avalanche consensus
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 10s
   enabled: true
   checks:
@@ -150,6 +172,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -160,6 +183,9 @@
       reputation_signal: major_error
 
 - service_id: bera
+  # Block time: ~2s | Source: berascan.com, BRIP-0003 stable block time
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 10s
   enabled: true
   checks:
@@ -171,6 +197,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -181,6 +208,9 @@
       reputation_signal: major_error
 
 - service_id: sonic
+  # Block time: ~1s | Source: sonicscan.org, soniclabs.com docs
+  # Formula: 300s / 1s = 300 blocks for 5 minutes
+  sync_allowance: 300
   check_interval: 10s
   enabled: true
   checks:
@@ -192,6 +222,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -202,6 +233,9 @@
       reputation_signal: major_error
 
 - service_id: ink
+  # Block time: ~2s | Source: OP Stack L2 (default 2s block time)
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 10s
   enabled: true
   checks:
@@ -213,6 +247,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -223,6 +258,9 @@
       reputation_signal: major_error
 
 - service_id: moonbeam
+  # Block time: ~6s | Source: chainspect.app, moonscan.io
+  # Formula: 300s / 6s = 50 blocks for 5 minutes
+  sync_allowance: 50
   check_interval: 10s
   enabled: true
   checks:
@@ -234,6 +272,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -244,6 +283,9 @@
       reputation_signal: major_error
 
 - service_id: moonriver
+  # Block time: ~6s | Source: moonscan.io (same as Moonbeam)
+  # Formula: 300s / 6s = 50 blocks for 5 minutes
+  sync_allowance: 50
   check_interval: 10s
   enabled: true
   checks:
@@ -255,6 +297,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -265,6 +308,9 @@
       reputation_signal: major_error
 
 - service_id: gnosis
+  # Block time: ~5s | Source: gnosisscan.io, gnosis chain docs
+  # Formula: 300s / 5s = 60 blocks for 5 minutes
+  sync_allowance: 60
   check_interval: 10s
   enabled: true
   checks:
@@ -276,6 +322,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -286,6 +333,9 @@
       reputation_signal: major_error
 
 - service_id: celo
+  # Block time: ~5s | Source: celoscan.io, celo docs
+  # Formula: 300s / 5s = 60 blocks for 5 minutes
+  sync_allowance: 60
   check_interval: 10s
   enabled: true
   checks:
@@ -297,6 +347,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -307,6 +358,9 @@
       reputation_signal: major_error
 
 - service_id: fantom
+  # Block time: ~1s | Source: ftmscan.com (legacy chain, migrating to Sonic)
+  # Formula: 300s / 1s = 300 blocks for 5 minutes
+  sync_allowance: 300
   check_interval: 10s
   enabled: true
   checks:
@@ -318,6 +372,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -328,6 +383,9 @@
       reputation_signal: major_error
 
 - service_id: harmony
+  # Block time: ~2s | Source: explorer.harmony.one, harmony docs
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 10s
   enabled: true
   checks:
@@ -339,6 +397,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -349,6 +408,9 @@
       reputation_signal: major_error
 
 - service_id: fuse
+  # Block time: ~5s | Source: explorer.fuse.io, fuse docs
+  # Formula: 300s / 5s = 60 blocks for 5 minutes
+  sync_allowance: 60
   check_interval: 10s
   enabled: true
   checks:
@@ -360,6 +422,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -370,6 +433,9 @@
       reputation_signal: major_error
 
 - service_id: iotex
+  # Block time: ~5s | Source: chainspect.app, iotexscan.io
+  # Formula: 300s / 5s = 60 blocks for 5 minutes
+  sync_allowance: 60
   check_interval: 10s
   enabled: true
   checks:
@@ -381,6 +447,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -391,6 +458,9 @@
       reputation_signal: major_error
 
 - service_id: oasys
+  # Block time: ~15s | Source: docs.oasys.games (Hub-Layer same as Ethereum)
+  # Formula: 300s / 15s = 20 blocks for 5 minutes
+  sync_allowance: 20
   check_interval: 10s
   enabled: true
   checks:
@@ -402,6 +472,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -412,6 +483,9 @@
       reputation_signal: major_error
 
 - service_id: kaia
+  # Block time: ~1s | Source: kaiascan.io, kaia.io docs (formerly Klaytn)
+  # Formula: 300s / 1s = 300 blocks for 5 minutes
+  sync_allowance: 300
   check_interval: 10s
   enabled: true
   checks:
@@ -423,6 +497,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -433,6 +508,9 @@
       reputation_signal: major_error
 
 - service_id: xrplevm
+  # Block time: ~4s | Source: evm-sidechain.xrpl.org explorer
+  # Formula: 300s / 4s = 75 blocks for 5 minutes
+  sync_allowance: 75
   check_interval: 10s
   enabled: true
   checks:
@@ -444,6 +522,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -456,6 +535,9 @@
 # Hyperliquid is an EVM chain (not Cosmos)
 # KNOWN ISSUE: eth_call ignores block number parameter - always returns latest block context
 - service_id: hyperliquid
+  # Block time: ~1s | Source: hyperliquid docs, block explorer
+  # Formula: 300s / 1s = 300 blocks for 5 minutes
+  sync_allowance: 300
   check_interval: 10s
   enabled: true
   checks:
@@ -467,6 +549,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -481,83 +564,9 @@
 # ==========================================
 
 - service_id: arb-one
-  check_interval: 30s
-  enabled: true
-  sync_allowance: 50
-  checks:
-    # Chain ID validation - detects wrong chain configuration
-    - name: eth_chainId
-      type: json_rpc
-      method: POST
-      path: /
-      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
-      expected_status_code: 200
-      timeout: 5s
-      reputation_signal: fatal_error
-
-    # Block height validation - detects stuck/lagging nodes
-    - name: eth_blockNumber_height_validation
-      type: json_rpc
-      method: POST
-      path: /
-      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
-      expected_status_code: 200
-      timeout: 5s
-      block_height_validation:
-        operator: ">="
-        reference:
-          type: "external"
-          endpoint: "https://arbitrum.drpc.org"
-          method: "eth_blockNumber"
-          tolerance: 50
-          cache_duration: 10s
-          timeout: 5s
-      reputation_signal: fatal_error
-
-    # Error detection - detects rate limits, bad gateway, quota errors
-    - name: eth_blockNumber_error_detection
-      type: json_rpc
-      method: POST
-      path: /
-      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
-      expected_status_code: 200
-      timeout: 5s
-      error_detection:
-        status_codes:
-          - code: 429
-            reputation_signal: fatal_error
-          - code: 502
-            reputation_signal: fatal_error
-          - code: 503
-            reputation_signal: fatal_error
-          - code: 504
-            reputation_signal: critical_error
-        response_patterns:
-          - pattern: "rate limit"
-            reputation_signal: fatal_error
-          - pattern: "exceeded your limit"
-            reputation_signal: fatal_error
-          - pattern: "too many requests"
-            reputation_signal: fatal_error
-          - pattern: "bad gateway"
-            reputation_signal: fatal_error
-          - pattern: "quota"
-            reputation_signal: fatal_error
-          - pattern: "not a valid jsonrpc"
-            reputation_signal: critical_error
-          - pattern: "invalid response"
-            reputation_signal: critical_error
-        jsonrpc_error_codes:
-          - code: -31002
-            reputation_signal: fatal_error
-          - code: -32001
-            reputation_signal: critical_error
-          - code: -32700
-            reputation_signal: critical_error
-      reputation_signal: minor_error
-
-
-- service_id: op
+  # Block time: ~0.25s | Source: chainspect.app, arbiscan.io
+  # Formula: 300s / 0.25s = 1200 blocks for 5 minutes
+  sync_allowance: 1200
   check_interval: 10s
   enabled: true
   checks:
@@ -569,6 +578,40 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
+    - name: eth_chainId
+      type: json_rpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
+      expected_status_code: 200
+      timeout: 5s
+      reputation_signal: major_error
+    - name: eth_syncing
+      type: json_rpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_syncing","params":[]}'
+      expected_status_code: 200
+      timeout: 5s
+      reputation_signal: major_error
+
+- service_id: op
+  # Block time: ~2s | Source: chainspect.app, optimistic.etherscan.io
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
+  check_interval: 10s
+  enabled: true
+  checks:
+    - name: eth_blockNumber
+      type: json_rpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
+      expected_status_code: 200
+      timeout: 5s
+      reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -587,82 +630,9 @@
       reputation_signal: major_error
 
 - service_id: base
-  check_interval: 30s
-  enabled: true
-  sync_allowance: 50
-  checks:
-    # Chain ID validation - detects wrong chain configuration
-    - name: eth_chainId
-      type: json_rpc
-      method: POST
-      path: /
-      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
-      expected_status_code: 200
-      timeout: 5s
-      reputation_signal: fatal_error
-
-    # Block height validation - detects stuck/lagging nodes
-    - name: eth_blockNumber_height_validation
-      type: json_rpc
-      method: POST
-      path: /
-      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
-      expected_status_code: 200
-      timeout: 5s
-      block_height_validation:
-        operator: ">="
-        reference:
-          type: "external"
-          endpoint: "https://base.drpc.org"
-          method: "eth_blockNumber"
-          tolerance: 50
-          cache_duration: 10s
-          timeout: 5s
-      reputation_signal: fatal_error
-
-    # Error detection - detects rate limits, bad gateway, quota errors
-    - name: eth_blockNumber_error_detection
-      type: json_rpc
-      method: POST
-      path: /
-      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
-      expected_status_code: 200
-      timeout: 5s
-      error_detection:
-        status_codes:
-          - code: 429
-            reputation_signal: fatal_error
-          - code: 502
-            reputation_signal: fatal_error
-          - code: 503
-            reputation_signal: fatal_error
-          - code: 504
-            reputation_signal: critical_error
-        response_patterns:
-          - pattern: "rate limit"
-            reputation_signal: fatal_error
-          - pattern: "exceeded your limit"
-            reputation_signal: fatal_error
-          - pattern: "too many requests"
-            reputation_signal: fatal_error
-          - pattern: "bad gateway"
-            reputation_signal: fatal_error
-          - pattern: "quota"
-            reputation_signal: fatal_error
-          - pattern: "not a valid jsonrpc"
-            reputation_signal: critical_error
-          - pattern: "invalid response"
-            reputation_signal: critical_error
-        jsonrpc_error_codes:
-          - code: -31002
-            reputation_signal: fatal_error
-          - code: -32001
-            reputation_signal: critical_error
-          - code: -32700
-            reputation_signal: critical_error
-      reputation_signal: minor_error
-
-- service_id: poly-zkevm
+  # Block time: ~2s | Source: chainspect.app, basescan.org
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 10s
   enabled: true
   checks:
@@ -674,6 +644,40 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
+    - name: eth_chainId
+      type: json_rpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_chainId","params":[]}'
+      expected_status_code: 200
+      timeout: 5s
+      reputation_signal: major_error
+    - name: eth_syncing
+      type: json_rpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_syncing","params":[]}'
+      expected_status_code: 200
+      timeout: 5s
+      reputation_signal: major_error
+
+- service_id: poly-zkevm
+  # Block time: ~2s | Source: zkevm.polygonscan.com
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
+  check_interval: 10s
+  enabled: true
+  checks:
+    - name: eth_blockNumber
+      type: json_rpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
+      expected_status_code: 200
+      timeout: 5s
+      reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -684,6 +688,9 @@
       reputation_signal: major_error
 
 - service_id: zksync-era
+  # Block time: ~1s | Source: era.zksync.network explorer
+  # Formula: 300s / 1s = 300 blocks for 5 minutes
+  sync_allowance: 300
   check_interval: 10s
   enabled: true
   checks:
@@ -695,6 +702,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -705,6 +713,9 @@
       reputation_signal: major_error
 
 - service_id: zklink-nova
+  # Block time: ~2s | Source: zkLink Nova explorer
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 10s
   enabled: true
   checks:
@@ -716,6 +727,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -726,6 +738,9 @@
       reputation_signal: major_error
 
 - service_id: scroll
+  # Block time: ~3s | Source: scrollscan.com
+  # Formula: 300s / 3s = 100 blocks for 5 minutes
+  sync_allowance: 100
   check_interval: 10s
   enabled: true
   checks:
@@ -737,6 +752,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -747,6 +763,9 @@
       reputation_signal: major_error
 
 - service_id: linea
+  # Block time: ~2s | Source: lineascan.build
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 10s
   enabled: true
   checks:
@@ -758,6 +777,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -769,6 +789,9 @@
 
 # DEPRECATED from public portal but retained for operators
 - service_id: mantle
+  # Block time: ~2s | Source: explorer.mantle.xyz
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 10s
   enabled: true
   checks:
@@ -780,6 +803,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -790,6 +814,9 @@
       reputation_signal: major_error
 
 - service_id: blast
+  # Block time: ~2s | Source: blastscan.io (OP Stack default)
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 10s
   enabled: true
   checks:
@@ -801,6 +828,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -811,6 +839,9 @@
       reputation_signal: major_error
 
 - service_id: boba
+  # Block time: ~2s | Source: bobascan.com (OP Stack)
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 10s
   enabled: true
   checks:
@@ -822,6 +853,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -832,6 +864,9 @@
       reputation_signal: major_error
 
 - service_id: metis
+  # Block time: ~2s | Source: andromeda-explorer.metis.io
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 10s
   enabled: true
   checks:
@@ -843,6 +878,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -853,6 +889,9 @@
       reputation_signal: major_error
 
 - service_id: taiko
+  # Block time: ~12s | Source: taikoscan.io (based-rollup inherits L1 timing)
+  # Formula: 300s / 12s = 25 blocks for 5 minutes
+  sync_allowance: 25
   check_interval: 10s
   enabled: true
   checks:
@@ -864,6 +903,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -874,6 +914,9 @@
       reputation_signal: major_error
 
 - service_id: unichain
+  # Block time: ~1s | Source: uniscan.xyz (OP Stack with 1s blocks)
+  # Formula: 300s / 1s = 300 blocks for 5 minutes
+  sync_allowance: 300
   check_interval: 10s
   enabled: true
   checks:
@@ -885,6 +928,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -895,6 +939,9 @@
       reputation_signal: major_error
 
 - service_id: opbnb
+  # Block time: ~1s | Source: opbnbscan.com
+  # Formula: 300s / 1s = 300 blocks for 5 minutes
+  sync_allowance: 300
   check_interval: 10s
   enabled: true
   checks:
@@ -906,6 +953,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -916,6 +964,9 @@
       reputation_signal: major_error
 
 - service_id: fraxtal
+  # Block time: ~2s | Source: fraxscan.com (OP Stack)
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 10s
   enabled: true
   checks:
@@ -927,6 +978,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -941,6 +993,9 @@
 # ==========================================
 
 - service_id: eth-sepolia-testnet
+  # Block time: ~12s | Source: Same as Ethereum mainnet
+  # Formula: 300s / 12s = 25 blocks for 5 minutes
+  sync_allowance: 25
   check_interval: 15s
   enabled: true
   checks:
@@ -952,6 +1007,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -963,6 +1019,9 @@
 
 # DEPRECATED from public portal but retained for operators
 - service_id: eth-holesky-testnet
+  # Block time: ~12s | Source: Same as Ethereum mainnet
+  # Formula: 300s / 12s = 25 blocks for 5 minutes
+  sync_allowance: 25
   check_interval: 15s
   enabled: true
   checks:
@@ -974,6 +1033,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -984,6 +1044,9 @@
       reputation_signal: major_error
 
 - service_id: poly-amoy-testnet
+  # Block time: ~2s | Source: Same as Polygon mainnet
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 15s
   enabled: true
   checks:
@@ -995,6 +1058,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -1005,6 +1069,9 @@
       reputation_signal: major_error
 
 - service_id: arb-sepolia-testnet
+  # Block time: ~0.25s | Source: Same as Arbitrum mainnet
+  # Formula: 300s / 0.25s = 1200 blocks for 5 minutes
+  sync_allowance: 1200
   check_interval: 15s
   enabled: true
   checks:
@@ -1016,6 +1083,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -1026,6 +1094,9 @@
       reputation_signal: major_error
 
 - service_id: op-sepolia-testnet
+  # Block time: ~2s | Source: Same as Optimism mainnet
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 15s
   enabled: true
   checks:
@@ -1037,6 +1108,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -1047,6 +1119,9 @@
       reputation_signal: major_error
 
 - service_id: base-sepolia-testnet
+  # Block time: ~2s | Source: Same as Base mainnet
+  # Formula: 300s / 2s = 150 blocks for 5 minutes
+  sync_allowance: 150
   check_interval: 15s
   enabled: true
   checks:
@@ -1058,6 +1133,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -1068,6 +1144,9 @@
       reputation_signal: major_error
 
 - service_id: xrplevm-testnet
+  # Block time: ~4s | Source: Same as XRPL EVM mainnet
+  # Formula: 300s / 4s = 75 blocks for 5 minutes
+  sync_allowance: 75
   check_interval: 15s
   enabled: true
   checks:
@@ -1079,6 +1158,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -1089,6 +1169,9 @@
       reputation_signal: major_error
 
 - service_id: giwa-sepolia-testnet
+  # Block time: ~12s | Source: Ethereum L2 testnet
+  # Formula: 300s / 12s = 25 blocks for 5 minutes
+  sync_allowance: 25
   check_interval: 15s
   enabled: true
   checks:
@@ -1100,6 +1183,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: eth_chainId
       type: json_rpc
       method: POST
@@ -1109,24 +1193,14 @@
       timeout: 5s
       reputation_signal: major_error
 
-- service_id: tron
-  check_interval: 15s
-  enabled: true
-  checks:
-    - name: getNowBlock
-      type: json_rpc
-      method: POST
-      path: /wallet/getnowblock
-      body: '{}'
-      expected_status_code: 200
-      timeout: 5s
-      reputation_signal: minor_error
-
 # ==========================================
 # NON-EVM CHAINS
 # ==========================================
 
 - service_id: solana
+  # Block time: ~0.4s | Source: chainspect.app, solscan.io
+  # Formula: 300s / 0.4s = 750 blocks for 5 minutes
+  sync_allowance: 750
   check_interval: 10s
   enabled: true
   checks:
@@ -1147,8 +1221,12 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
 
 - service_id: near
+  # Block time: ~1s | Source: chainspect.app, nearblocks.io (Nightshade 2.0: 600ms blocks)
+  # Formula: 300s / 1s = 300 blocks for 5 minutes
+  sync_allowance: 300
   check_interval: 15s
   enabled: true
   checks:
@@ -1160,6 +1238,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: block
       type: json_rpc
       method: POST
@@ -1170,6 +1249,9 @@
       reputation_signal: major_error
 
 - service_id: sui
+  # Checkpoint time: ~1s | Source: chainspect.app, suiscan.xyz (uses checkpoints, not blocks)
+  # Formula: 300s / 1s = 300 checkpoints for 5 minutes
+  sync_allowance: 300
   check_interval: 15s
   enabled: true
   checks:
@@ -1181,6 +1263,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: minor_error
+      sync_check: true
     - name: sui_getTotalTransactionBlocks
       type: json_rpc
       method: POST
@@ -1190,11 +1273,31 @@
       timeout: 5s
       reputation_signal: major_error
 
+- service_id: tron
+  # Block time: ~3s | Source: chainspect.app, tronscan.org
+  # Formula: 300s / 3s = 100 blocks for 5 minutes
+  sync_allowance: 100
+  check_interval: 15s
+  enabled: true
+  checks:
+    - name: getNowBlock
+      type: rest
+      method: POST
+      path: /wallet/getnowblock
+      body: '{}'
+      expected_status_code: 200
+      timeout: 5s
+      reputation_signal: minor_error
+      sync_check: true
+
 # ==========================================
 # COSMOS SDK CHAINS
 # ==========================================
 
 - service_id: akash
+  # Block time: ~6s | Source: mintscan.io/akash, akash.network docs
+  # Formula: 300s / 6s = 50 blocks for 5 minutes
+  sync_allowance: 50
   check_interval: 30s
   enabled: true
   checks:
@@ -1214,6 +1317,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
     - name: syncing
       type: rest
       method: GET
@@ -1223,6 +1327,9 @@
       reputation_signal: critical_error
 
 - service_id: atomone
+  # Block time: ~6s | Source: Cosmos SDK default (Tendermint BFT)
+  # Formula: 300s / 6s = 50 blocks for 5 minutes
+  sync_allowance: 50
   check_interval: 30s
   enabled: true
   checks:
@@ -1242,6 +1349,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
     - name: syncing
       type: rest
       method: GET
@@ -1251,6 +1359,9 @@
       reputation_signal: critical_error
 
 - service_id: cheqd
+  # Block time: ~6s | Source: explorer.cheqd.io, Cosmos SDK default
+  # Formula: 300s / 6s = 50 blocks for 5 minutes
+  sync_allowance: 50
   check_interval: 30s
   enabled: true
   checks:
@@ -1270,6 +1381,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
     - name: syncing
       type: rest
       method: GET
@@ -1279,6 +1391,9 @@
       reputation_signal: critical_error
 
 - service_id: chihuahua
+  # Block time: ~6s | Source: mintscan.io/chihuahua, Cosmos SDK default
+  # Formula: 300s / 6s = 50 blocks for 5 minutes
+  sync_allowance: 50
   check_interval: 30s
   enabled: true
   checks:
@@ -1298,6 +1413,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
     - name: syncing
       type: rest
       method: GET
@@ -1307,6 +1423,9 @@
       reputation_signal: critical_error
 
 - service_id: fetch
+  # Block time: ~6s | Source: fetch.ai docs, Cosmos SDK default
+  # Formula: 300s / 6s = 50 blocks for 5 minutes
+  sync_allowance: 50
   check_interval: 30s
   enabled: true
   checks:
@@ -1326,6 +1445,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
     - name: syncing
       type: rest
       method: GET
@@ -1335,6 +1455,9 @@
       reputation_signal: critical_error
 
 - service_id: jackal
+  # Block time: ~6s | Source: Cosmos SDK default
+  # Formula: 300s / 6s = 50 blocks for 5 minutes
+  sync_allowance: 50
   check_interval: 30s
   enabled: true
   checks:
@@ -1354,6 +1477,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
     - name: syncing
       type: rest
       method: GET
@@ -1363,6 +1487,9 @@
       reputation_signal: critical_error
 
 - service_id: juno
+  # Block time: ~6s | Source: mintscan.io/juno, Cosmos SDK default
+  # Formula: 300s / 6s = 50 blocks for 5 minutes
+  sync_allowance: 50
   check_interval: 30s
   enabled: true
   checks:
@@ -1382,6 +1509,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
     - name: syncing
       type: rest
       method: GET
@@ -1391,6 +1519,9 @@
       reputation_signal: critical_error
 
 - service_id: kava
+  # Block time: ~6s | Source: mintscan.io/kava, kava.io docs
+  # Formula: 300s / 6s = 50 blocks for 5 minutes
+  sync_allowance: 50
   check_interval: 30s
   enabled: true
   checks:
@@ -1410,6 +1541,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
     - name: syncing
       type: rest
       method: GET
@@ -1419,6 +1551,9 @@
       reputation_signal: critical_error
 
 - service_id: osmosis
+  # Block time: ~6s | Source: mintscan.io/osmosis, osmosis.zone docs
+  # Formula: 300s / 6s = 50 blocks for 5 minutes
+  sync_allowance: 50
   check_interval: 30s
   enabled: true
   checks:
@@ -1438,6 +1573,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
     - name: syncing
       type: rest
       method: GET
@@ -1447,6 +1583,9 @@
       reputation_signal: critical_error
 
 - service_id: persistence
+  # Block time: ~6s | Source: mintscan.io/persistence, Cosmos SDK default
+  # Formula: 300s / 6s = 50 blocks for 5 minutes
+  sync_allowance: 50
   check_interval: 30s
   enabled: true
   checks:
@@ -1466,6 +1605,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
     - name: syncing
       type: rest
       method: GET
@@ -1475,6 +1615,9 @@
       reputation_signal: critical_error
 
 - service_id: pocket
+  # Block time: ~60s | Source: Shannon protocol specs (Pocket Network)
+  # Formula: 300s / 60s = 5 blocks for 5 minutes
+  sync_allowance: 5
   check_interval: 30s
   enabled: true
   checks:
@@ -1494,6 +1637,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
     - name: syncing
       type: rest
       method: GET
@@ -1503,6 +1647,9 @@
       reputation_signal: critical_error
 
 - service_id: seda
+  # Block time: ~6s | Source: Cosmos SDK default
+  # Formula: 300s / 6s = 50 blocks for 5 minutes
+  sync_allowance: 50
   check_interval: 30s
   enabled: true
   checks:
@@ -1522,6 +1669,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
     - name: syncing
       type: rest
       method: GET
@@ -1531,6 +1679,9 @@
       reputation_signal: critical_error
 
 - service_id: sei
+  # Block time: ~0.4s | Source: chainspect.app, seistream.app (optimized for speed)
+  # Formula: 300s / 0.4s = 750 blocks for 5 minutes
+  sync_allowance: 750
   check_interval: 30s
   enabled: true
   checks:
@@ -1550,6 +1701,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
     - name: syncing
       type: rest
       method: GET
@@ -1559,6 +1711,9 @@
       reputation_signal: critical_error
 
 - service_id: shentu
+  # Block time: ~6s | Source: Cosmos SDK default
+  # Formula: 300s / 6s = 50 blocks for 5 minutes
+  sync_allowance: 50
   check_interval: 30s
   enabled: true
   checks:
@@ -1578,6 +1733,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
     - name: syncing
       type: rest
       method: GET
@@ -1587,6 +1743,9 @@
       reputation_signal: critical_error
 
 - service_id: stargaze
+  # Block time: ~6s | Source: mintscan.io/stargaze, Cosmos SDK default
+  # Formula: 300s / 6s = 50 blocks for 5 minutes
+  sync_allowance: 50
   check_interval: 30s
   enabled: true
   checks:
@@ -1606,6 +1765,7 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: major_error
+      sync_check: true
     - name: syncing
       type: rest
       method: GET
