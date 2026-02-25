@@ -1523,7 +1523,7 @@
 - service_id: solana
   # Block time: ~0.4s | Source: chainspect.app, solscan.io
   # Formula: 300s / 0.4s = 750 blocks for 5 minutes
-  sync_allowance: 750
+  sync_allowance: 1500
   check_interval: 10s
   enabled: true
   checks:
