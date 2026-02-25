@@ -770,7 +770,7 @@
       body: '{"jsonrpc":"2.0","id":1,"method":"eth_blockNumber","params":[]}'
       expected_status_code: 200
       timeout: 5s
-      reputation_signal: minor_error
+      reputation_signal: critical_error
       sync_check: true
     - name: eth_chainId
       type: json_rpc
@@ -1527,15 +1527,15 @@
   check_interval: 10s
   enabled: true
   checks:
-    # - name: getHealth
-    #   type: json_rpc
-    #   method: POST
-    #   path: /
-    #   body: '{"jsonrpc":"2.0","id":1,"method":"getHealth"}'
-    #   expected_status_code: 200
-    #   expected_response_contains: '"ok"'
-    #   timeout: 5s
-    #   reputation_signal: critical_error
+    - name: getHealth
+      type: json_rpc
+      method: POST
+      path: /
+      body: '{"jsonrpc":"2.0","id":1,"method":"getHealth"}'
+      expected_status_code: 200
+      expected_response_contains: '"ok"'
+      timeout: 5s
+      reputation_signal: critical_error
     - name: getBlockHeight
       type: json_rpc
       method: POST
@@ -1543,7 +1543,7 @@
       body: '{"jsonrpc":"2.0","id":1,"method":"getBlockHeight"}'
       expected_status_code: 200
       timeout: 5s
-      reputation_signal: major_error
+      reputation_signal: critical_error
       sync_check: true
 
 - service_id: near
