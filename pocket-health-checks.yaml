@@ -850,7 +850,7 @@
 - service_id: base
   # Block time: ~2s | Source: chainspect.app, basescan.org
   # Formula: 300s / 2s = 150 blocks for 5 minutes
-  sync_allowance: 150
+  sync_allowance: 20
   check_interval: 10s
   enabled: true
   checks:
