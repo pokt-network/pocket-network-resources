@@ -37,7 +37,7 @@
 - service_id: eth
   # Block time: ~12s | Source: chainspect.app, etherscan.io
   # Formula: 300s / 12s = 25 blocks for 5 minutes
-  sync_allowance: 25
+  sync_allowance: 2
   check_interval: 10s
   enabled: true
   checks:
