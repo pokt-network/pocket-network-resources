@@ -1445,10 +1445,16 @@
 - service_id: robinhood
   # Robinhood Chain - Arbitrum Orbit L2, native ETH gas | Source: docs.robinhood.com/chain
   # Chain ID: 4663 (0x1237)
-  # Block time: ~0.1s (100ms) | Formula: 300s / 0.1s = 3000 blocks; practical cap used (cf. arb-one)
+  # Block time: ~0.13s (measured ~7.5 blk/s) | Formula: 300s / 0.13s ≈ 2250 blocks
+  # sync_allowance MUST be large: external floor = official node (always at tip);
+  # relay-miner suppliers lag the tip by >50 blocks routinely, so a tight allowance
+  # disqualifies every json_rpc endpoint (all endpoints -> cooldown, "no valid endpoints").
+  # eth_syncing intentionally omitted: robinhood returns -32601 (method not available).
   # Archival check pending: needs a verified historical balance
-  sync_allowance: 50
-  check_interval: 20s
+  sync_allowance: 2000
+  # 60s interval: health-check load scales per-endpoint (26+24 endpoints x checks / interval);
+  # sync tolerance is 2000 blocks (~4.5min) so 60s reputation sampling is ample.
+  check_interval: 60s
   enabled: true
   checks:
     - name: eth_blockNumber
@@ -1472,14 +1478,6 @@
       expected_response_contains: '0x1237"'
       timeout: 5s
       reputation_signal: critical_error
-    - name: eth_syncing
-      type: json_rpc
-      method: POST
-      path: /
-      body: '{"jsonrpc":"2.0","id":1,"method":"eth_syncing","params":[]}'
-      expected_status_code: 200
-      timeout: 5s
-      reputation_signal: major_error
 
 # ==========================================
 # TESTNET CHAINS
