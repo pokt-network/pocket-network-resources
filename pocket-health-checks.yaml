@@ -1748,7 +1748,7 @@
   # disqualifies every json_rpc endpoint (all endpoints -> cooldown, "no valid endpoints").
   # eth_syncing intentionally omitted: robinhood returns -32601 (method not available).
   # Archival check pending: needs a verified historical balance
-  sync_allowance: 2000
+  sync_allowance: 100
   # 60s interval: ~20 samples per 20min session — ample for reputation. sync tolerance is
   # 2000 blocks (~4.5min), so infrequent sampling is fine (no need to catch small drift fast).
   check_interval: 60s
