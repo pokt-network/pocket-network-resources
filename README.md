@@ -7,6 +7,11 @@ Common Resources in use on the Pocket Network Protocol
 - Stratos downloader for fast decentralized snapshot sync: https://github.com/easy2stake/poktsnap/tree/main/oneshot-downloader
 - Backup http resource: https://snaps.easy2stake.com/pocket/
 
+## Service Cards
+
+On-chain `pocket-service-card/v1` metadata for PNF-owned services, one JSON per service, plus the
+batch `edit-service` config. See [`service-cards/`](./service-cards/).
+
 ## Sauron Access
 
 #### Mainnet

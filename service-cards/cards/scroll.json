@@ -1,0 +1,99 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "Scroll mainnet JSON-RPC (chain id 534352). zkEVM rollup on Ethereum; EVM-compatible; eth_subscribe over websocket.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "execution client HTTP RPC, default :8545"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "optional",
+      "backend_hint": "execution client WS RPC, default :8546",
+      "notes": "eth_subscribe (newHeads, logs)"
+    }
+  ],
+  "apis": [
+    "ethereum-json-rpc",
+    "eth-subscribe"
+  ],
+  "specs": [
+    {
+      "kind": "openrpc",
+      "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    }
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "Scroll l2geth follower node with an Ethereum L1 endpoint.",
+    "implementations": [
+      "l2geth (scroll-tech/go-ethereum) >= scroll-v5.7"
+    ],
+    "sync": "archive",
+    "min_disk_gb": 1500,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "eth_chainId",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x82750$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "eth_syncing",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "method": "eth_getBalance",
+          "params": [
+            "0x5300000000000000000000000000000000000004",
+            "0x4c4b40"
+          ]
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0xbb0dede65b522e37cc$"
+        },
+        "notes": "Archival probe: historical balance at block 5000000. A pruned node returns a missing-trie-node error."
+      },
+      {
+        "rpc_type": "WEBSOCKET",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 4,
+          "method": "eth_blockNumber",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x[0-9a-f]+$"
+        },
+        "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
+      }
+    ],
+    "notes": "Archive state expected (gateway probes block 5,000,000). Scroll uses its own go-ethereum fork; stock geth will not sync. scroll_ namespace optional."
+  },
+  "docs": "https://docs.scroll.io/",
+  "updated": "2026-09-01"
+}

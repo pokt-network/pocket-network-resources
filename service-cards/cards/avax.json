@@ -1,0 +1,99 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "Avalanche C-Chain mainnet JSON-RPC (chain id 43114). EVM-compatible; served at the /ext/bc/C/rpc path of an AvalancheGo node; eth_subscribe over websocket.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "avalanchego :9650/ext/bc/C/rpc"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "optional",
+      "backend_hint": "avalanchego :9650/ext/bc/C/ws",
+      "notes": "eth_subscribe (newHeads, logs)"
+    }
+  ],
+  "apis": [
+    "ethereum-json-rpc",
+    "eth-subscribe"
+  ],
+  "specs": [
+    {
+      "kind": "openrpc",
+      "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    }
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "AvalancheGo node; the C-Chain RPC is at http://host:9650/ext/bc/C/rpc and WS at ws://host:9650/ext/bc/C/ws.",
+    "implementations": [
+      "avalanchego >= 1.11"
+    ],
+    "sync": "archive",
+    "min_disk_gb": 1500,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "eth_chainId",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0xa86a$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "eth_syncing",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "method": "eth_getBalance",
+          "params": [
+            "0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9",
+            "0x4c4b40"
+          ]
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0xd1cd6895a4c6e6b221e0$"
+        },
+        "notes": "Archival probe: historical balance at block 5000000. A pruned node returns a missing-trie-node error."
+      },
+      {
+        "rpc_type": "WEBSOCKET",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 4,
+          "method": "eth_blockNumber",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x[0-9a-f]+$"
+        },
+        "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
+      }
+    ],
+    "notes": "Archive state expected (gateway probes block 5,000,000): run with pruning disabled from genesis. Set backend_url to the /ext/bc/C/rpc path, not the node root."
+  },
+  "docs": "https://build.avax.network/",
+  "updated": "2026-09-01"
+}

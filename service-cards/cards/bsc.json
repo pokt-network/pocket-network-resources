@@ -1,0 +1,100 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "BNB Smart Chain mainnet JSON-RPC (chain id 56). EVM-compatible; eth_subscribe over websocket.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "execution client HTTP RPC, default :8545"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "expected",
+      "backend_hint": "execution client WS RPC, default :8546",
+      "notes": "eth_subscribe (newHeads, logs)"
+    }
+  ],
+  "apis": [
+    "ethereum-json-rpc",
+    "eth-subscribe"
+  ],
+  "specs": [
+    {
+      "kind": "openrpc",
+      "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    }
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "BNB Smart Chain geth fork (bnb-chain/bsc) or bsc-erigon.",
+    "implementations": [
+      "bsc-geth >= 1.4",
+      "bsc-erigon >= 1.2"
+    ],
+    "sync": "archive",
+    "min_disk_gb": 3000,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "eth_chainId",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x38$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "eth_syncing",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "method": "eth_getBalance",
+          "params": [
+            "0xfb50526f49894b78541b776f5aaefe43e3bd8590",
+            "0x1f86b10"
+          ]
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x231f41a5cec600$"
+        },
+        "notes": "Archival probe: historical balance at block 33057552. A pruned node returns a missing-trie-node error."
+      },
+      {
+        "rpc_type": "WEBSOCKET",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 4,
+          "method": "eth_blockNumber",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x[0-9a-f]+$"
+        },
+        "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
+      }
+    ],
+    "notes": "Archive state expected (gateway probes block 33,054,480). ~3s blocks; consumers issue very wide eth_getLogs ranges."
+  },
+  "docs": "https://docs.bnbchain.org/",
+  "updated": "2026-09-01"
+}

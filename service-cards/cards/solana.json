@@ -1,0 +1,75 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "Solana mainnet-beta JSON-RPC. RPC-node methods (getAccountInfo, getBlock, sendTransaction, getProgramAccounts); account/log/slot subscriptions over websocket.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "agave/jito RPC HTTP, default :8899"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "optional",
+      "backend_hint": "agave/jito PubSub WS, default :8900",
+      "notes": "accountSubscribe, logsSubscribe, slotSubscribe"
+    }
+  ],
+  "apis": [
+    "solana-json-rpc",
+    "solana-pubsub"
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "Solana RPC node (non-voting validator with RPC enabled) on mainnet-beta.",
+    "implementations": [
+      "agave >= 2.1",
+      "jito-solana >= 2.1"
+    ],
+    "sync": "full",
+    "min_disk_gb": 2000,
+    "min_ram_gb": 512,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "getGenesisHash"
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d$"
+        },
+        "notes": "Guards against a devnet/testnet node staked under this service id."
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "getHealth"
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^ok$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "method": "getBlockHeight"
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^[0-9]+$"
+        }
+      }
+    ],
+    "notes": "Run with --full-rpc-api and --no-voting. getProgramAccounts on large programs is expensive; enable --account-index program-id and spl-token-owner/mint. Historical getBlock/getTransaction beyond local ledger needs BigTable or a warehouse node; most traffic is head-of-chain."
+  },
+  "docs": "https://solana.com/docs/rpc",
+  "updated": "2026-09-01"
+}

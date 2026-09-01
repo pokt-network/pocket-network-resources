@@ -1,0 +1,82 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "Fraxtal mainnet JSON-RPC (chain id 252). OP Stack L2 by Frax; EVM-compatible; eth_subscribe over websocket.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "execution client HTTP RPC, default :8545"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "optional",
+      "backend_hint": "execution client WS RPC, default :8546",
+      "notes": "eth_subscribe (newHeads, logs)"
+    }
+  ],
+  "apis": [
+    "ethereum-json-rpc",
+    "eth-subscribe"
+  ],
+  "specs": [
+    {
+      "kind": "openrpc",
+      "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    }
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "OP Stack node from the FraxFinance fraxtal node release with an Ethereum L1 endpoint.",
+    "implementations": [
+      "op-geth + op-node (Fraxtal release)"
+    ],
+    "sync": "full",
+    "min_disk_gb": 800,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "eth_chainId",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0xfc$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "eth_syncing",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "WEBSOCKET",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 4,
+          "method": "eth_blockNumber",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x[0-9a-f]+$"
+        },
+        "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
+      }
+    ],
+    "notes": "Full node is sufficient; no archival probe today."
+  },
+  "docs": "https://docs.frax.com/",
+  "updated": "2026-09-01"
+}

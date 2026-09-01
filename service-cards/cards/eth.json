@@ -1,0 +1,102 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "Ethereum mainnet execution layer JSON-RPC (chain id 1). Full-node and archive-depth methods; eth_subscribe over websocket.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "execution client HTTP RPC, default :8545"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "expected",
+      "backend_hint": "execution client WS RPC, default :8546",
+      "notes": "eth_subscribe (newHeads, logs)"
+    }
+  ],
+  "apis": [
+    "ethereum-json-rpc",
+    "eth-subscribe"
+  ],
+  "specs": [
+    {
+      "kind": "openrpc",
+      "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    }
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "Ethereum execution client paired with a consensus client (post-merge).",
+    "implementations": [
+      "geth >= 1.14",
+      "erigon >= 2.60",
+      "reth >= 1.0",
+      "nethermind >= 1.27"
+    ],
+    "sync": "archive",
+    "min_disk_gb": 3000,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "eth_chainId",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x1$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "eth_syncing",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "method": "eth_getBalance",
+          "params": [
+            "0x28C6c06298d514Db089934071355E5743bf21d60",
+            "0xbbaee0"
+          ]
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0xcab531a8ea39e00$"
+        },
+        "notes": "Archival probe: historical balance at block 12300000. A pruned node returns a missing-trie-node error."
+      },
+      {
+        "rpc_type": "WEBSOCKET",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 4,
+          "method": "eth_blockNumber",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x[0-9a-f]+$"
+        },
+        "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
+      }
+    ],
+    "notes": "Archive state expected: consumers send eth_call/eth_getBalance at historical blocks and the gateway probes for it. A pruned node fails those requests. Also serve debug_/trace_ if your client supports them."
+  },
+  "docs": "https://ethereum.org/developers/docs/apis/json-rpc/",
+  "updated": "2026-09-01"
+}

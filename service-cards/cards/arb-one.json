@@ -1,0 +1,100 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "Arbitrum One mainnet JSON-RPC (chain id 42161). Nitro rollup on Ethereum; EVM-compatible; eth_subscribe over websocket.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "execution client HTTP RPC, default :8545"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "optional",
+      "backend_hint": "execution client WS RPC, default :8546",
+      "notes": "eth_subscribe (newHeads, logs)"
+    }
+  ],
+  "apis": [
+    "ethereum-json-rpc",
+    "eth-subscribe",
+    "arbitrum-arb-json-rpc"
+  ],
+  "specs": [
+    {
+      "kind": "openrpc",
+      "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    }
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "Arbitrum Nitro node with an Ethereum L1 endpoint (Nitro requires L1 access for sequencer feed and batch reads).",
+    "implementations": [
+      "nitro >= 3.0"
+    ],
+    "sync": "archive",
+    "min_disk_gb": 2000,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "eth_chainId",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0xa4b1$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "eth_syncing",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "method": "eth_getBalance",
+          "params": [
+            "0xb38e8c17e38363af6ebdcb3dae12e0243582891d",
+            "0x2f4d60"
+          ]
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x133b76fbe5482070$"
+        },
+        "notes": "Archival probe: historical balance at block 3100000. A pruned node returns a missing-trie-node error."
+      },
+      {
+        "rpc_type": "WEBSOCKET",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 4,
+          "method": "eth_blockNumber",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x[0-9a-f]+$"
+        },
+        "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
+      }
+    ],
+    "notes": "Archive state expected (gateway probes block 3,100,000). Classic (pre-Nitro) blocks need the classic-node archive for historical eth_call; most consumers do not require it."
+  },
+  "docs": "https://docs.arbitrum.io/",
+  "updated": "2026-09-01"
+}

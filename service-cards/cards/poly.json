@@ -1,0 +1,101 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "Polygon PoS mainnet JSON-RPC (chain id 137). EVM-compatible; eth_subscribe over websocket; bor_ namespace optional.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "execution client HTTP RPC, default :8545"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "expected",
+      "backend_hint": "execution client WS RPC, default :8546",
+      "notes": "eth_subscribe (newHeads, logs)"
+    }
+  ],
+  "apis": [
+    "ethereum-json-rpc",
+    "eth-subscribe",
+    "polygon-bor-json-rpc"
+  ],
+  "specs": [
+    {
+      "kind": "openrpc",
+      "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    }
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "Polygon PoS bor node with a synced heimdall.",
+    "implementations": [
+      "bor >= 1.4 + heimdall >= 1.0",
+      "erigon (polygon) >= 2.60"
+    ],
+    "sync": "archive",
+    "min_disk_gb": 4000,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "eth_chainId",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x89$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "eth_syncing",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "method": "eth_getBalance",
+          "params": [
+            "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+            "0x4c4b40"
+          ]
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x0$"
+        },
+        "notes": "Archival probe: historical balance at block 5000000. A pruned node returns a missing-trie-node error."
+      },
+      {
+        "rpc_type": "WEBSOCKET",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 4,
+          "method": "eth_blockNumber",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x[0-9a-f]+$"
+        },
+        "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
+      }
+    ],
+    "notes": "Archive state expected (gateway probes block 5,000,000). Consumers expect eth_getLogs over wide block ranges; keep bor log-index caps at defaults or higher."
+  },
+  "docs": "https://docs.polygon.technology/",
+  "updated": "2026-09-01"
+}

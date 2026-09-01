@@ -1,0 +1,82 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "Robinhood Chain mainnet JSON-RPC (chain id 4663). Arbitrum Orbit L2; EVM-compatible; eth_subscribe over websocket.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "execution client HTTP RPC, default :8545"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "expected",
+      "backend_hint": "execution client WS RPC, default :8546",
+      "notes": "eth_subscribe (newHeads, logs)"
+    }
+  ],
+  "apis": [
+    "ethereum-json-rpc",
+    "eth-subscribe"
+  ],
+  "specs": [
+    {
+      "kind": "openrpc",
+      "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    }
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "Arbitrum Nitro node configured for the Robinhood Chain parent-chain and chain-config, with a parent-chain RPC endpoint.",
+    "implementations": [
+      "nitro >= 3.0 (Arbitrum Orbit)"
+    ],
+    "sync": "full",
+    "min_disk_gb": 1000,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "eth_chainId",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x1237$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "eth_syncing",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "WEBSOCKET",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 4,
+          "method": "eth_blockNumber",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x[0-9a-f]+$"
+        },
+        "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
+      }
+    ],
+    "notes": "Orbit chain: nitro needs --parent-chain.connection.url and the chain's chain-info JSON. Sub-second blocks (~7.5 blk/s); keep the node at tip. arb_/arbtrace_ namespaces optional."
+  },
+  "docs": "https://docs.robinhood.com/chain",
+  "updated": "2026-09-01"
+}
