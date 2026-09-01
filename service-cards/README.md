@@ -1,6 +1,8 @@
 # Service Cards
 
-On-chain metadata cards for the Pocket services owned by PNF, one JSON file per service.
+On-chain metadata cards for the Pocket services owned by PNF, one JSON file per service:
+every PNF-owned service with at least one staked supplier (77 as of 2026-09-01). Services with
+zero suppliers (duplicates, dormant chains, AI model ids) are deliberately left without a card.
 Cards are stored in `Service.metadata.card` and follow the `pocket-service-card/v1` schema
 (`pkg/cards/service_card.schema.json` in poktroll, prose in `docs/pocket_cards.md`).
 
@@ -19,6 +21,15 @@ service-cards/
 
 - `rpc_types[].intent`: `expected` where the gateway health-checks the transport
   (`pocket-health-checks.yaml`), `optional` otherwise. Intent is not enforced by anything.
+- Cosmos SDK services: `JSON_RPC` means CometBFT's JSON-RPC mode on the RPC port (:26657,
+  `POST /` with a jsonrpc envelope), which is what the gateway's `status`/`health` checks send.
+  `COMET_BFT` is the same server addressed URI-style (`GET /status`). Websocket subscriptions
+  are on that same port at `/websocket`. `REST` is the gRPC-gateway on :1317, `GRPC` is :9090.
+  On EVM-enabled Cosmos chains the gateway probes EVM on `JSON_RPC` (kava, sei, xrplevm), so
+  there `JSON_RPC` is the :8545 endpoint and the card says so.
+- Chain-id assertions: `eth_chainId` for EVM, `node_info.network` for CometBFT, genesis hash for
+  Solana, `chain_id` for NEAR, `sui_getChainIdentifier` for Sui, `getblockchaininfo.chain` for
+  Bitcoin, `genesis_validators_root` for the Beacon API.
 - `serving.sync`: `archive` where the gateway runs an archival probe, `full` otherwise.
 - `serving.healthcheck` mirrors the gateway checks: `eth_chainId` pinned to the chain id,
   `eth_syncing == false`, the archival `eth_getBalance` probe with its verified balance,

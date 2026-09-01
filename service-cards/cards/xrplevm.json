@@ -1,0 +1,104 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "XRPL EVM Sidechain mainnet JSON-RPC (chain id 1440000). Cosmos SDK + evmOS chain; EVM JSON-RPC on :8545; eth_subscribe over websocket.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "execution client HTTP RPC, default :8545"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "expected",
+      "backend_hint": "execution client WS RPC, default :8546",
+      "notes": "eth_subscribe (newHeads, logs)"
+    },
+    {
+      "type": "REST",
+      "intent": "optional",
+      "backend_hint": "cosmos REST (gRPC-gateway), default :1317"
+    }
+  ],
+  "apis": [
+    "ethereum-json-rpc",
+    "eth-subscribe"
+  ],
+  "specs": [
+    {
+      "kind": "openrpc",
+      "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    }
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "exrpd full node with the JSON-RPC server enabled (:8545 HTTP, :8546 WS). The same node also exposes CometBFT RPC :26657 and Cosmos REST :1317.",
+    "implementations": [
+      "exrpd (xrplevm node) >= 8.0"
+    ],
+    "sync": "archive",
+    "min_disk_gb": 800,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "eth_chainId",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x15f900$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "eth_syncing",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "method": "eth_getBalance",
+          "params": [
+            "0x7C21a90E3eCD3215d16c3BBe76a491f8f792d4Bf",
+            "0xf4bef"
+          ]
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x0$"
+        },
+        "notes": "Archival probe: historical balance at block 1002479. A pruned node returns a missing-trie-node error."
+      },
+      {
+        "rpc_type": "WEBSOCKET",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 4,
+          "method": "eth_blockNumber",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x[0-9a-f]+$"
+        },
+        "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
+      }
+    ],
+    "notes": "Archive state expected (gateway probes block 1002479). JSON_RPC on this service is the EVM endpoint, not CometBFT."
+  },
+  "docs": "https://docs.xrplevm.org/",
+  "updated": "2026-09-01"
+}

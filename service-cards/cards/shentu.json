@@ -1,0 +1,122 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "Shentu Chain mainnet (shentu-2.2). CometBFT RPC, Cosmos SDK REST and gRPC.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "CometBFT RPC, default :26657 (JSON-RPC mode: POST / with a jsonrpc envelope)"
+    },
+    {
+      "type": "REST",
+      "intent": "expected",
+      "backend_hint": "cosmos REST (gRPC-gateway), default :1317"
+    },
+    {
+      "type": "COMET_BFT",
+      "intent": "optional",
+      "backend_hint": "CometBFT RPC, default :26657 (URI style, GET /status)"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "optional",
+      "backend_hint": "CometBFT RPC, same port at /websocket",
+      "notes": "subscribe (tm.event='NewBlock', tx events)"
+    },
+    {
+      "type": "GRPC",
+      "intent": "optional",
+      "backend_hint": "cosmos gRPC, default :9090"
+    }
+  ],
+  "apis": [
+    "cometbft-rpc",
+    "cosmos-rest",
+    "cosmos-grpc"
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "Shentu Chain full node (shentud) with RPC, REST/gRPC-gateway and gRPC enabled; pruning 'default' or lighter is fine for head-of-chain traffic.",
+    "implementations": [
+      "shentud >= v2.11 (ShentuChain/shentu)"
+    ],
+    "sync": "full",
+    "min_disk_gb": 500,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "status"
+        },
+        "expect": {
+          "json_path": "$.result.node_info.network",
+          "matches": "^shentu-2\\.2$"
+        },
+        "notes": "Chain-id assertion: guards against a node for a different network staked under this service id."
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "status"
+        },
+        "expect": {
+          "json_path": "$.result.sync_info.catching_up",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "method": "health"
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^\\{\\}$"
+        }
+      },
+      {
+        "rpc_type": "REST",
+        "request": {
+          "path": "/cosmos/base/tendermint/v1beta1/syncing",
+          "method": "GET"
+        },
+        "expect": {
+          "json_path": "$.syncing",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "REST",
+        "request": {
+          "path": "/cosmos/base/tendermint/v1beta1/node_info",
+          "method": "GET"
+        },
+        "expect": {
+          "json_path": "$.default_node_info.network",
+          "matches": "^shentu-2\\.2$"
+        }
+      },
+      {
+        "rpc_type": "COMET_BFT",
+        "request": {
+          "path": "/status",
+          "method": "GET"
+        },
+        "expect": {
+          "json_path": "$.result.node_info.network",
+          "matches": "^shentu-2\\.2$"
+        }
+      }
+    ],
+    "notes": "JSON_RPC here is CometBFT's JSON-RPC mode on the RPC port, the same server COMET_BFT addresses in URI style; websocket subscriptions are on that port at /websocket."
+  },
+  "docs": "https://www.shentu.org/",
+  "updated": "2026-09-01"
+}

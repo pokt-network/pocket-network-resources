@@ -1,0 +1,55 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "Bitcoin mainnet JSON-RPC from Bitcoin Core: getblockchaininfo, getrawtransaction, sendrawtransaction and the rest of the node RPC.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "bitcoind RPC, default :8332 (basic auth or cookie)"
+    }
+  ],
+  "apis": [
+    "bitcoin-core-json-rpc"
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "Bitcoin Core full node with server=1, txindex=1 for getrawtransaction on arbitrary txids, and rpcallowip for the RelayMiner.",
+    "implementations": [
+      "bitcoin-core >= 27.0"
+    ],
+    "sync": "archive",
+    "min_disk_gb": 1000,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "getblockchaininfo",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result.chain",
+          "matches": "^main$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "getblockchaininfo",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result.initialblockdownload",
+          "matches": "^false$"
+        }
+      }
+    ],
+    "notes": "bitcoind requires RPC auth; the RelayMiner backend_url must carry the credentials. Two suppliers today. No gateway health check configured yet."
+  },
+  "docs": "https://developer.bitcoin.org/reference/rpc/",
+  "updated": "2026-09-01"
+}

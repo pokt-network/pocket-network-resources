@@ -1,0 +1,82 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "NEAR Protocol mainnet JSON-RPC. Nightshade sharded chain; status, block, query and tx methods; finality-aware reads.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "neard RPC, default :3030"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "optional",
+      "notes": "No native JSON-RPC subscriptions; few suppliers stake it."
+    }
+  ],
+  "apis": [
+    "near-json-rpc"
+  ],
+  "specs": [
+    {
+      "kind": "openapi",
+      "url": "https://github.com/near/nearcore/blob/master/chain/jsonrpc/openapi/openapi.json"
+    }
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "neard RPC node (non-validating) on mainnet. Historical data beyond the local GC window needs an archival node or the NEAR Lake/indexer.",
+    "implementations": [
+      "nearcore (neard) >= 2.13"
+    ],
+    "sync": "full",
+    "min_disk_gb": 1500,
+    "min_ram_gb": 32,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "status",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result.chain_id",
+          "matches": "^mainnet$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "status",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result.sync_info.syncing",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "method": "block",
+          "params": {
+            "finality": "final"
+          }
+        },
+        "expect": {
+          "json_path": "$.result.header.height",
+          "matches": "^[0-9]+$"
+        }
+      }
+    ],
+    "notes": "Sync from the official snapshot; genesis sync is not practical. Set the RPC to bind non-locally and raise the default request limits."
+  },
+  "docs": "https://docs.near.org/",
+  "updated": "2026-09-01"
+}

@@ -1,0 +1,121 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "Kava mainnet JSON-RPC (chain id 2222). Cosmos SDK chain with Ethermint EVM; EVM JSON-RPC on :8545, Cosmos REST on :1317; eth_subscribe over websocket.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "execution client HTTP RPC, default :8545"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "optional",
+      "backend_hint": "execution client WS RPC, default :8546",
+      "notes": "eth_subscribe (newHeads, logs)"
+    },
+    {
+      "type": "REST",
+      "intent": "expected",
+      "backend_hint": "cosmos REST (gRPC-gateway), default :1317"
+    },
+    {
+      "type": "COMET_BFT",
+      "intent": "optional",
+      "backend_hint": "CometBFT RPC, default :26657 (URI style, /status)"
+    },
+    {
+      "type": "GRPC",
+      "intent": "optional",
+      "backend_hint": "cosmos gRPC, default :9090"
+    }
+  ],
+  "apis": [
+    "ethereum-json-rpc",
+    "eth-subscribe",
+    "cosmos-rest",
+    "cometbft-rpc"
+  ],
+  "specs": [
+    {
+      "kind": "openrpc",
+      "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    }
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "kava full node with the EVM JSON-RPC server enabled (:8545 HTTP, :8546 WS).",
+    "implementations": [
+      "kava >= 0.26"
+    ],
+    "sync": "full",
+    "min_disk_gb": 1500,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "eth_chainId",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x8ae$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "eth_syncing",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "WEBSOCKET",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 4,
+          "method": "eth_blockNumber",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x[0-9a-f]+$"
+        },
+        "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
+      },
+      {
+        "rpc_type": "COMET_BFT",
+        "request": {
+          "path": "/status",
+          "method": "GET"
+        },
+        "expect": {
+          "json_path": "$.result.node_info.network",
+          "matches": "^kava_2222-10$"
+        }
+      },
+      {
+        "rpc_type": "REST",
+        "request": {
+          "path": "/cosmos/base/tendermint/v1beta1/syncing",
+          "method": "GET"
+        },
+        "expect": {
+          "json_path": "$.syncing",
+          "matches": "^false$"
+        }
+      }
+    ],
+    "notes": "JSON_RPC on this service is the EVM endpoint (:8545), not CometBFT; CometBFT is COMET_BFT."
+  },
+  "docs": "https://docs.kava.io/",
+  "updated": "2026-09-01"
+}

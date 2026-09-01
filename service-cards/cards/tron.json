@@ -1,0 +1,91 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "TRON mainnet. HTTP wallet API (REST) at /wallet/* and the EVM-compatible JSON-RPC (chain id 728126428) at /jsonrpc, both from java-tron.",
+  "rpc_types": [
+    {
+      "type": "REST",
+      "intent": "expected",
+      "backend_hint": "java-tron HTTP API, default :8090 (/wallet/*)"
+    },
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "java-tron JSON-RPC, default :8545 (/jsonrpc)",
+      "notes": "Subset of eth_ methods; eth_chainId returns 0x2b6653dc."
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "optional",
+      "notes": "Not natively provided by java-tron; requires an event plugin bridge."
+    }
+  ],
+  "apis": [
+    "tron-http-api",
+    "ethereum-json-rpc"
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "java-tron full node with the HTTP API and the JSON-RPC service enabled (node.jsonrpc.httpFullNodeEnable = true).",
+    "implementations": [
+      "java-tron (FullNode) >= 4.7"
+    ],
+    "sync": "full",
+    "min_disk_gb": 2500,
+    "min_ram_gb": 32,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "eth_chainId",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x2b6653dc$"
+        },
+        "notes": "Guards against a supplier serving another EVM chain under this id (the incident that motivated chain-id checks)."
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "eth_blockNumber",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x[0-9a-f]+$"
+        }
+      },
+      {
+        "rpc_type": "REST",
+        "request": {
+          "path": "/wallet/getnowblock",
+          "method": "POST"
+        },
+        "expect": {
+          "json_path": "$.block_header.raw_data.number",
+          "matches": "^[0-9]+$"
+        }
+      },
+      {
+        "rpc_type": "REST",
+        "request": {
+          "path": "/wallet/getchainparameters",
+          "method": "GET"
+        },
+        "expect": {
+          "json_path": "$.chainParameter",
+          "matches": "non-empty array"
+        }
+      }
+    ],
+    "notes": "The HTTP API and the JSON-RPC are different ports on java-tron; the RelayMiner must route REST to :8090 and JSON_RPC to :8545 (or the /jsonrpc path)."
+  },
+  "docs": "https://developers.tron.network/",
+  "updated": "2026-09-01"
+}

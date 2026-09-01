@@ -1,0 +1,85 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "Sui mainnet JSON-RPC (chain identifier 35834a8a). sui_ and suix_ read methods, transaction execution and object queries.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "sui-node JSON-RPC, default :9000"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "optional",
+      "notes": "suix_subscribeEvent; deprecated upstream."
+    },
+    {
+      "type": "GRPC",
+      "intent": "optional",
+      "backend_hint": "sui-node gRPC, default :9000 (Sui's replacement for JSON-RPC)"
+    }
+  ],
+  "apis": [
+    "sui-json-rpc"
+  ],
+  "specs": [
+    {
+      "kind": "openrpc",
+      "url": "https://raw.githubusercontent.com/MystenLabs/sui/main/crates/sui-open-rpc/spec/openrpc.json"
+    }
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "sui-node full node on mainnet with the JSON-RPC server enabled. Mysten is retiring JSON-RPC on its public full nodes in favor of gRPC and GraphQL; self-hosted nodes still serve it.",
+    "implementations": [
+      "sui-node (mainnet release track) >= 1.50"
+    ],
+    "sync": "full",
+    "min_disk_gb": 4000,
+    "min_ram_gb": 128,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "sui_getChainIdentifier",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^35834a8a$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "sui_getLatestCheckpointSequenceNumber",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^[0-9]+$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "method": "sui_getTotalTransactionBlocks",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^[0-9]+$"
+        }
+      }
+    ],
+    "notes": "Start from a formal or DB snapshot; pruning defaults keep only recent history. Expect JSON-RPC to be deprecated upstream; GRPC is the likely successor transport for this service."
+  },
+  "docs": "https://docs.sui.io/",
+  "updated": "2026-09-01"
+}

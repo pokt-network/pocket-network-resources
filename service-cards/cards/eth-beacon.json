@@ -1,0 +1,83 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "Ethereum mainnet consensus layer (Beacon API). REST endpoints under /eth/v1 and /eth/v2 from any consensus client.",
+  "rpc_types": [
+    {
+      "type": "REST",
+      "intent": "expected",
+      "backend_hint": "consensus client Beacon API, default :5052 (lighthouse) / :3500 (prysm) / :5051 (teku)"
+    },
+    {
+      "type": "JSON_RPC",
+      "intent": "optional",
+      "notes": "Staked by some suppliers but the Beacon API is REST-only; nothing answers a JSON-RPC envelope."
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "optional",
+      "notes": "Beacon API events are server-sent events over HTTP (/eth/v1/events), not websocket."
+    }
+  ],
+  "apis": [
+    "ethereum-beacon-api"
+  ],
+  "specs": [
+    {
+      "kind": "openapi",
+      "url": "https://ethereum.github.io/beacon-APIs/releases/v3.0.0/beacon-node-oapi.json"
+    }
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "Ethereum consensus client with the HTTP Beacon API enabled, paired with an execution client.",
+    "implementations": [
+      "lighthouse >= 6.0",
+      "teku >= 24.x",
+      "prysm >= 5.0",
+      "nimbus >= 24.x",
+      "lodestar >= 1.20"
+    ],
+    "sync": "full",
+    "min_disk_gb": 300,
+    "healthcheck": [
+      {
+        "rpc_type": "REST",
+        "request": {
+          "path": "/eth/v1/beacon/genesis",
+          "method": "GET"
+        },
+        "expect": {
+          "json_path": "$.data.genesis_validators_root",
+          "matches": "^0x4b363db94e286120d76eb905340fdd4e54bfe9f06bf33ff6cf5ad27f511bfe95$"
+        },
+        "notes": "Mainnet genesis validators root; pins the network."
+      },
+      {
+        "rpc_type": "REST",
+        "request": {
+          "path": "/eth/v1/node/syncing",
+          "method": "GET"
+        },
+        "expect": {
+          "json_path": "$.data.is_syncing",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "REST",
+        "request": {
+          "path": "/eth/v1/node/version",
+          "method": "GET"
+        },
+        "expect": {
+          "json_path": "$.data.version",
+          "matches": ".+"
+        }
+      }
+    ],
+    "notes": "Historical state queries (finalized states, past epochs) need a consensus client running in archive mode. Checkpoint-synced nodes serve head-of-chain only."
+  },
+  "docs": "https://ethereum.github.io/beacon-APIs/",
+  "updated": "2026-09-01"
+}

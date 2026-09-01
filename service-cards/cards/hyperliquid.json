@@ -1,0 +1,82 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "HyperEVM mainnet JSON-RPC (chain id 999). Hyperliquid's EVM, secured by HyperBFT; eth_subscribe over websocket.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "hl-node EVM RPC, default :3001/evm"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "optional",
+      "backend_hint": "hl-node EVM WS",
+      "notes": "eth_subscribe (newHeads, logs)"
+    }
+  ],
+  "apis": [
+    "ethereum-json-rpc",
+    "eth-subscribe"
+  ],
+  "specs": [
+    {
+      "kind": "openrpc",
+      "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    }
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "Hyperliquid hl-node run as a non-validator with --serve-evm-rpc; the EVM RPC listens on :3001/evm.",
+    "implementations": [
+      "hl-node (Hyperliquid non-validating node) with --serve-evm-rpc"
+    ],
+    "sync": "full",
+    "min_disk_gb": 500,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "eth_chainId",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x3e7$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "eth_syncing",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "WEBSOCKET",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 4,
+          "method": "eth_blockNumber",
+          "params": []
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^0x[0-9a-f]+$"
+        },
+        "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
+      }
+    ],
+    "notes": "Chain id 999 collides with a stale Wanchain testnet entry in chainlist; the assertion above is HyperEVM."
+  },
+  "docs": "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm",
+  "updated": "2026-09-01"
+}

@@ -1,0 +1,88 @@
+{
+  "schema": "pocket-service-card/v1",
+  "description": "Namada mainnet (namada.5f5de2dd1b88cba30586420). CometBFT RPC, Cosmos SDK REST and gRPC.",
+  "rpc_types": [
+    {
+      "type": "JSON_RPC",
+      "intent": "expected",
+      "backend_hint": "CometBFT RPC, default :26657 (JSON-RPC mode: POST / with a jsonrpc envelope)"
+    },
+    {
+      "type": "COMET_BFT",
+      "intent": "optional",
+      "backend_hint": "CometBFT RPC, default :26657 (URI style, GET /status)"
+    },
+    {
+      "type": "WEBSOCKET",
+      "intent": "optional",
+      "backend_hint": "CometBFT RPC, same port at /websocket",
+      "notes": "subscribe (tm.event='NewBlock', tx events)"
+    }
+  ],
+  "apis": [
+    "cometbft-rpc"
+  ],
+  "access": "public",
+  "results": "deterministic",
+  "serving": {
+    "backend": "Namada full node (namadan ledger) with CometBFT RPC exposed on :26657.",
+    "implementations": [
+      "namadan >= v1.0 (anoma/namada)"
+    ],
+    "sync": "full",
+    "min_disk_gb": 500,
+    "healthcheck": [
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "status"
+        },
+        "expect": {
+          "json_path": "$.result.node_info.network",
+          "matches": "^namada\\.5f5de2dd1b88cba30586420$"
+        },
+        "notes": "Chain-id assertion: guards against a node for a different network staked under this service id."
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "status"
+        },
+        "expect": {
+          "json_path": "$.result.sync_info.catching_up",
+          "matches": "^false$"
+        }
+      },
+      {
+        "rpc_type": "JSON_RPC",
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "method": "health"
+        },
+        "expect": {
+          "json_path": "$.result",
+          "matches": "^\\{\\}$"
+        }
+      },
+      {
+        "rpc_type": "COMET_BFT",
+        "request": {
+          "path": "/status",
+          "method": "GET"
+        },
+        "expect": {
+          "json_path": "$.result.node_info.network",
+          "matches": "^namada\\.5f5de2dd1b88cba30586420$"
+        }
+      }
+    ],
+    "notes": "JSON_RPC here is CometBFT's JSON-RPC mode on the RPC port, the same server COMET_BFT addresses in URI style; websocket subscriptions are on that port at /websocket. Not Cosmos SDK: Namada runs its own ledger on CometBFT, so JSON_RPC (CometBFT) works but the Cosmos REST and gRPC paths do not exist; REST and GRPC intents are optional in name only, nothing answers them. No gateway health check configured yet."
+  },
+  "docs": "https://docs.namada.net/",
+  "updated": "2026-09-01"
+}
