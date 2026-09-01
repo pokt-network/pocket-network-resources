@@ -31,6 +31,7 @@
     "implementations": [
       "sonicd >= 2.0"
     ],
+    "docs": "https://github.com/0xsoniclabs/sonic",
     "sync": "archive",
     "min_disk_gb": 1500,
     "healthcheck": [

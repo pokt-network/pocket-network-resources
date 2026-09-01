@@ -41,6 +41,7 @@
     "implementations": [
       "starsd >= v14 (public-awesome/stargaze)"
     ],
+    "docs": "https://github.com/public-awesome/stargaze",
     "sync": "full",
     "min_disk_gb": 800,
     "healthcheck": [
@@ -115,7 +116,7 @@
         }
       }
     ],
-    "notes": "JSON_RPC here is CometBFT's JSON-RPC mode on the RPC port, the same server COMET_BFT addresses in URI style; websocket subscriptions are on that port at /websocket."
+    "notes": "JSON_RPC here is CometBFT's JSON-RPC mode on the RPC port, the same server COMET_BFT addresses in URI style; websocket subscriptions are on that port at /websocket. Chain id from the cosmos chain-registry; public RPCs did not answer during verification."
   },
   "docs": "https://docs.stargaze.zone/",
   "updated": "2026-09-01"

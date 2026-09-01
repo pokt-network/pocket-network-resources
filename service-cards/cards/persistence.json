@@ -41,6 +41,7 @@
     "implementations": [
       "persistenceCore >= v16 (persistenceOne/persistenceCore)"
     ],
+    "docs": "https://github.com/persistenceOne/persistenceCore",
     "sync": "full",
     "min_disk_gb": 500,
     "healthcheck": [

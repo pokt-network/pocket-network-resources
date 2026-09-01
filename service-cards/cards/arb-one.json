@@ -32,6 +32,7 @@
     "implementations": [
       "nitro >= 3.0"
     ],
+    "docs": "https://docs.arbitrum.io/run-arbitrum-node/run-full-node",
     "sync": "archive",
     "min_disk_gb": 2000,
     "healthcheck": [
@@ -93,7 +94,7 @@
         "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
       }
     ],
-    "notes": "Archive state expected (gateway probes block 3,100,000). Classic (pre-Nitro) blocks need the classic-node archive for historical eth_call; most consumers do not require it."
+    "notes": "Archive state expected (gateway probes block 3,100,000). Classic (pre-Nitro) blocks need the classic-node archive for historical eth_call; most consumers do not require it. Archival balance verified by the gateway team against archival nodes; public pruned endpoints cannot confirm it."
   },
   "docs": "https://docs.arbitrum.io/",
   "updated": "2026-09-01"

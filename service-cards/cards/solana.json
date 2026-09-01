@@ -26,6 +26,7 @@
       "agave >= 2.1",
       "jito-solana >= 2.1"
     ],
+    "docs": "https://docs.anza.xyz/operations/setup-an-rpc-node",
     "sync": "full",
     "min_disk_gb": 2000,
     "min_ram_gb": 512,

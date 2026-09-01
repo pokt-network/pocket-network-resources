@@ -31,6 +31,7 @@
     "implementations": [
       "taiko-geth + taiko-client (simple-taiko-node)"
     ],
+    "docs": "https://github.com/taikoxyz/simple-taiko-node",
     "sync": "full",
     "min_disk_gb": 300,
     "healthcheck": [
@@ -75,7 +76,7 @@
         "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
       }
     ],
-    "notes": "Testnet. Hekla is deprecated upstream and has 4 suppliers; expect it to be sunset."
+    "notes": "Testnet. Hekla is deprecated upstream and has 4 suppliers; expect it to be sunset. The public Hekla RPC no longer answers; probes could not be live-verified."
   },
   "docs": "https://docs.taiko.xyz/",
   "updated": "2026-09-01"

@@ -41,6 +41,7 @@
     "implementations": [
       "atomoned >= v4.1 (atomone-hub/atomone)"
     ],
+    "docs": "https://github.com/atomone-hub/atomone",
     "sync": "full",
     "min_disk_gb": 300,
     "healthcheck": [

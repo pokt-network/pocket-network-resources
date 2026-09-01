@@ -31,6 +31,7 @@
     "implementations": [
       "l2geth + dtl (MetisProtocol/mvm release)"
     ],
+    "docs": "https://github.com/MetisProtocol/mvm",
     "sync": "archive",
     "min_disk_gb": 1000,
     "healthcheck": [

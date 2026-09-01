@@ -41,6 +41,7 @@
     "implementations": [
       "junod >= v27 (CosmosContracts/juno)"
     ],
+    "docs": "https://docs.junonetwork.io/validators/joining-mainnet",
     "sync": "full",
     "min_disk_gb": 800,
     "healthcheck": [

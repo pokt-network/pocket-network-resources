@@ -41,6 +41,7 @@
     "implementations": [
       "osmosisd >= v31 (osmosis-labs/osmosis)"
     ],
+    "docs": "https://docs.osmosis.zone/overview/validate/joining-mainnet",
     "sync": "full",
     "min_disk_gb": 1500,
     "healthcheck": [

@@ -31,6 +31,7 @@
     "implementations": [
       "bor >= 1.4 + heimdall >= 1.0"
     ],
+    "docs": "https://docs.polygon.technology/pos/how-to/full-node/full-node-binaries/",
     "sync": "full",
     "min_disk_gb": 500,
     "healthcheck": [

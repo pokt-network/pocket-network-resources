@@ -41,6 +41,7 @@
     "implementations": [
       "shentud >= v2.11 (ShentuChain/shentu)"
     ],
+    "docs": "https://github.com/ShentuChain/shentu",
     "sync": "full",
     "min_disk_gb": 500,
     "healthcheck": [

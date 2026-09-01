@@ -34,6 +34,7 @@
     "implementations": [
       "sui-node (mainnet release track) >= 1.50"
     ],
+    "docs": "https://docs.sui.io/guides/operator/sui-full-node",
     "sync": "full",
     "min_disk_gb": 4000,
     "min_ram_gb": 128,

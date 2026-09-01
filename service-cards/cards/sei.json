@@ -48,6 +48,7 @@
     "implementations": [
       "sei-chain (seid) >= 5.9"
     ],
+    "docs": "https://github.com/sei-protocol/sei-chain",
     "sync": "full",
     "min_disk_gb": 1500,
     "healthcheck": [
@@ -62,19 +63,6 @@
         "expect": {
           "json_path": "$.result",
           "matches": "^0x531$"
-        }
-      },
-      {
-        "rpc_type": "JSON_RPC",
-        "request": {
-          "jsonrpc": "2.0",
-          "id": 2,
-          "method": "eth_syncing",
-          "params": []
-        },
-        "expect": {
-          "json_path": "$.result",
-          "matches": "^false$"
         }
       },
       {
@@ -114,7 +102,7 @@
         }
       }
     ],
-    "notes": "JSON_RPC on this service is the EVM endpoint (:8545), not CometBFT; CometBFT is COMET_BFT."
+    "notes": "JSON_RPC on this service is the EVM endpoint (:8545), not CometBFT; CometBFT is COMET_BFT. eth_syncing is not supported by the Sei EVM RPC; use eth_blockNumber lag against a reference instead."
   },
   "docs": "https://docs.sei.io/",
   "updated": "2026-09-01"

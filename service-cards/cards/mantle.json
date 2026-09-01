@@ -31,6 +31,7 @@
     "implementations": [
       "mantle op-geth + op-node (mantlenetworkio/mantle-v2)"
     ],
+    "docs": "https://github.com/mantlenetworkio/mantle-v2",
     "sync": "full",
     "min_disk_gb": 1500,
     "healthcheck": [

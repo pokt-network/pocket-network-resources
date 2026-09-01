@@ -41,6 +41,7 @@
     "implementations": [
       "uniond >= v1.2 (unionlabs/union)"
     ],
+    "docs": "https://github.com/unionlabs/union",
     "sync": "full",
     "min_disk_gb": 300,
     "healthcheck": [

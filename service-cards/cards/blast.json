@@ -31,6 +31,7 @@
     "implementations": [
       "blast-geth + op-node (blast-optimism release)"
     ],
+    "docs": "https://github.com/blast-io/deployment",
     "sync": "archive",
     "min_disk_gb": 1500,
     "healthcheck": [
@@ -92,7 +93,7 @@
         "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
       }
     ],
-    "notes": "Archive state expected (gateway probes block 1000000)."
+    "notes": "Archive state expected (gateway probes block 1000000). Archival balance verified by the gateway team against archival nodes; public pruned endpoints cannot confirm it."
   },
   "docs": "https://docs.blast.io/",
   "updated": "2026-09-01"

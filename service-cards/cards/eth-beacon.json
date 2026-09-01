@@ -38,6 +38,7 @@
       "nimbus >= 24.x",
       "lodestar >= 1.20"
     ],
+    "docs": "https://ethereum.org/developers/docs/nodes-and-clients/run-a-node/",
     "sync": "full",
     "min_disk_gb": 300,
     "healthcheck": [

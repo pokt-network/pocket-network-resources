@@ -32,6 +32,7 @@
       "bsc-geth >= 1.4",
       "bsc-erigon >= 1.2"
     ],
+    "docs": "https://docs.bnbchain.org/bnb-smart-chain/developers/node_operators/full_node/",
     "sync": "archive",
     "min_disk_gb": 3000,
     "healthcheck": [
@@ -93,7 +94,7 @@
         "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
       }
     ],
-    "notes": "Archive state expected (gateway probes block 33,054,480). ~3s blocks; consumers issue very wide eth_getLogs ranges."
+    "notes": "Archive state expected (gateway probes block 33,054,480). ~3s blocks; consumers issue very wide eth_getLogs ranges. Archival balance verified by the gateway team against archival nodes; public pruned endpoints cannot confirm it."
   },
   "docs": "https://docs.bnbchain.org/",
   "updated": "2026-09-01"

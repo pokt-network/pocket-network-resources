@@ -41,6 +41,7 @@
     "implementations": [
       "mantrachaind >= v7.0 (MANTRA-Chain/mantrachain)"
     ],
+    "docs": "https://github.com/MANTRA-Chain/mantrachain",
     "sync": "full",
     "min_disk_gb": 300,
     "healthcheck": [

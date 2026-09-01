@@ -31,6 +31,7 @@
     "implementations": [
       "oasys-validator (geth fork) >= 1.6"
     ],
+    "docs": "https://docs.oasys.games/docs/architecture/hub-layer/hub-layer",
     "sync": "archive",
     "min_disk_gb": 1000,
     "healthcheck": [

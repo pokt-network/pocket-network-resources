@@ -30,6 +30,7 @@
     "implementations": [
       "java-tron (FullNode) >= 4.7"
     ],
+    "docs": "https://tronprotocol.github.io/documentation-en/using_javatron/installing_javatron/",
     "sync": "full",
     "min_disk_gb": 2500,
     "min_ram_gb": 32,

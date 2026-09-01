@@ -32,6 +32,7 @@
     "implementations": [
       "zksync-era external node >= 25.0"
     ],
+    "docs": "https://github.com/matter-labs/zksync-era/blob/main/docs/src/guides/external-node/01_intro.md",
     "sync": "full",
     "min_disk_gb": 1500,
     "healthcheck": [

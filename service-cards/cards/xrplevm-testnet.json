@@ -36,6 +36,7 @@
     "implementations": [
       "exrpd (xrplevm node) >= 8.0"
     ],
+    "docs": "https://docs.xrplevm.org/pages/operators",
     "sync": "full",
     "min_disk_gb": 300,
     "healthcheck": [

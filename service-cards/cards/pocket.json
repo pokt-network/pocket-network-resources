@@ -41,6 +41,7 @@
     "implementations": [
       "pocketd >= v0.1.35 (pokt-network/poktroll)"
     ],
+    "docs": "https://docs.pokt.network/",
     "sync": "full",
     "min_disk_gb": 300,
     "healthcheck": [

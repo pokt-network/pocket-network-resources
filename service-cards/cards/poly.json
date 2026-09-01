@@ -33,6 +33,7 @@
       "bor >= 1.4 + heimdall >= 1.0",
       "erigon (polygon) >= 2.60"
     ],
+    "docs": "https://docs.polygon.technology/pos/how-to/full-node/full-node-binaries/",
     "sync": "archive",
     "min_disk_gb": 4000,
     "healthcheck": [

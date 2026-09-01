@@ -41,6 +41,7 @@
     "implementations": [
       "cheqd-noded >= v4.2 (cheqd/cheqd-node)"
     ],
+    "docs": "https://docs.cheqd.io/node/getting-started/setup-and-configure",
     "sync": "full",
     "min_disk_gb": 500,
     "healthcheck": [

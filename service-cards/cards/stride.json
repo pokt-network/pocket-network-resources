@@ -41,6 +41,7 @@
     "implementations": [
       "strided >= v24 (Stride-Labs/stride)"
     ],
+    "docs": "https://github.com/Stride-Labs/stride",
     "sync": "full",
     "min_disk_gb": 500,
     "healthcheck": [

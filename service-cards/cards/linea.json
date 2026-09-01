@@ -33,6 +33,7 @@
       "linea-besu >= 24.x",
       "linea-geth (deprecated)"
     ],
+    "docs": "https://docs.linea.build/get-started/how-to/run-a-node",
     "sync": "archive",
     "min_disk_gb": 1500,
     "healthcheck": [

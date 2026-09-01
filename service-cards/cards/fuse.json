@@ -32,6 +32,7 @@
       "nethermind (fuse config)",
       "openethereum (legacy)"
     ],
+    "docs": "https://github.com/fuseio/fuse-network",
     "sync": "full",
     "min_disk_gb": 800,
     "healthcheck": [

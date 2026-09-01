@@ -32,6 +32,7 @@
       "op-geth + op-node >= 1.9",
       "op-reth >= 1.0"
     ],
+    "docs": "https://docs.optimism.io/operators/node-operators/rollup-node",
     "sync": "full",
     "min_disk_gb": 500,
     "healthcheck": [

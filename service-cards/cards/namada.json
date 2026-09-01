@@ -29,6 +29,7 @@
     "implementations": [
       "namadan >= v1.0 (anoma/namada)"
     ],
+    "docs": "https://docs.namada.net/operators/ledger",
     "sync": "full",
     "min_disk_gb": 500,
     "healthcheck": [

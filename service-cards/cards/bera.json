@@ -32,6 +32,7 @@
       "beacon-kit >= 1.1 + reth >= 1.0",
       "beacon-kit >= 1.1 + geth >= 1.14"
     ],
+    "docs": "https://docs.berachain.com/nodes/quickstart",
     "sync": "archive",
     "min_disk_gb": 1000,
     "healthcheck": [

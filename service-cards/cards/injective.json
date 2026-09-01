@@ -41,6 +41,7 @@
     "implementations": [
       "injectived >= v1.13 (InjectiveFoundation/injective-core)"
     ],
+    "docs": "https://github.com/InjectiveLabs/injective-chain-releases",
     "sync": "full",
     "min_disk_gb": 1500,
     "healthcheck": [

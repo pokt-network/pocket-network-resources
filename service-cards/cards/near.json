@@ -29,6 +29,7 @@
     "implementations": [
       "nearcore (neard) >= 2.13"
     ],
+    "docs": "https://near-nodes.io/",
     "sync": "full",
     "min_disk_gb": 1500,
     "min_ram_gb": 32,

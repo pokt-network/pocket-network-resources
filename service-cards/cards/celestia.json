@@ -41,6 +41,7 @@
     "implementations": [
       "celestia-appd >= v9 (celestiaorg/celestia-app)"
     ],
+    "docs": "https://github.com/celestiaorg/celestia-app",
     "sync": "full",
     "min_disk_gb": 2000,
     "healthcheck": [

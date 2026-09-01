@@ -31,6 +31,7 @@
     "implementations": [
       "l2geth (scroll-tech/go-ethereum) >= scroll-v5.7"
     ],
+    "docs": "https://docs.scroll.io/en/developers/guides/running-a-scroll-node/",
     "sync": "archive",
     "min_disk_gb": 1500,
     "healthcheck": [

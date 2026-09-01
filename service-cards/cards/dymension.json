@@ -41,6 +41,7 @@
     "implementations": [
       "dymd >= v3.0 (dymensionxyz/dymension)"
     ],
+    "docs": "https://github.com/dymensionxyz/dymension",
     "sync": "full",
     "min_disk_gb": 500,
     "healthcheck": [

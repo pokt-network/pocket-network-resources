@@ -41,6 +41,7 @@
     "implementations": [
       "canined >= v4.0 (JackalLabs/canine-chain)"
     ],
+    "docs": "https://github.com/JackalLabs/canine-chain",
     "sync": "full",
     "min_disk_gb": 500,
     "healthcheck": [

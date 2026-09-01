@@ -32,6 +32,7 @@
     "implementations": [
       "kaia (ken) >= 1.0"
     ],
+    "docs": "https://docs.kaia.io/nodes/endpoint-node/",
     "sync": "archive",
     "min_disk_gb": 3000,
     "healthcheck": [

@@ -48,6 +48,7 @@
     "implementations": [
       "kava >= 0.26"
     ],
+    "docs": "https://github.com/Kava-Labs/kava",
     "sync": "full",
     "min_disk_gb": 1500,
     "healthcheck": [

@@ -33,6 +33,7 @@
       "erigon >= 2.60",
       "geth >= 1.14"
     ],
+    "docs": "https://docs.gnosischain.com/node/",
     "sync": "archive",
     "min_disk_gb": 2000,
     "healthcheck": [

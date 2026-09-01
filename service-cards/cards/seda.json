@@ -41,6 +41,7 @@
     "implementations": [
       "sedad >= v1.0 (sedaprotocol/seda-chain)"
     ],
+    "docs": "https://github.com/sedaprotocol/seda-chain",
     "sync": "full",
     "min_disk_gb": 300,
     "healthcheck": [

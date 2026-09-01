@@ -31,6 +31,7 @@
     "implementations": [
       "avalanchego >= 1.11"
     ],
+    "docs": "https://build.avax.network/docs/nodes/run-a-node/from-source",
     "sync": "archive",
     "min_disk_gb": 1500,
     "healthcheck": [

@@ -34,6 +34,7 @@
       "reth >= 1.0",
       "nethermind >= 1.27"
     ],
+    "docs": "https://ethereum.org/developers/docs/nodes-and-clients/run-a-node/",
     "sync": "archive",
     "min_disk_gb": 3000,
     "healthcheck": [

@@ -41,6 +41,7 @@
     "implementations": [
       "akash >= v2.0 (akash-network/node)"
     ],
+    "docs": "https://github.com/akash-network/node",
     "sync": "full",
     "min_disk_gb": 800,
     "healthcheck": [

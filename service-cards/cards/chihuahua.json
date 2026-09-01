@@ -41,6 +41,7 @@
     "implementations": [
       "chihuahuad >= v7.0 (ChihuahuaChain/chihuahua)"
     ],
+    "docs": "https://github.com/ChihuahuaChain/chihuahua",
     "sync": "full",
     "min_disk_gb": 500,
     "healthcheck": [

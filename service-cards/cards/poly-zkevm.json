@@ -32,6 +32,7 @@
       "cdk-erigon (zkEVM RPC node)",
       "zkevm-node (legacy)"
     ],
+    "docs": "https://github.com/0xPolygonHermez/cdk-erigon",
     "sync": "full",
     "min_disk_gb": 800,
     "healthcheck": [

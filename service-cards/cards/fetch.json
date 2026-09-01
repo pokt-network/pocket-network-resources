@@ -41,6 +41,7 @@
     "implementations": [
       "fetchd >= v0.10 (fetchai/fetchd)"
     ],
+    "docs": "https://github.com/fetchai/fetchd",
     "sync": "full",
     "min_disk_gb": 500,
     "healthcheck": [

@@ -41,6 +41,7 @@
     "implementations": [
       "gaiad >= v27 (cosmos/gaia)"
     ],
+    "docs": "https://hub.cosmos.network/main/hub-tutorials/join-mainnet",
     "sync": "full",
     "min_disk_gb": 1500,
     "healthcheck": [

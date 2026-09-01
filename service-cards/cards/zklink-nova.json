@@ -32,6 +32,7 @@
     "implementations": [
       "zklink-nova external node (ZK Stack EN)"
     ],
+    "docs": "https://docs.zklink.io/",
     "sync": "full",
     "min_disk_gb": 500,
     "healthcheck": [

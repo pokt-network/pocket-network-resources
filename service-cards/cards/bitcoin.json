@@ -18,6 +18,7 @@
     "implementations": [
       "bitcoin-core >= 27.0"
     ],
+    "docs": "https://bitcoin.org/en/full-node",
     "sync": "archive",
     "min_disk_gb": 1000,
     "healthcheck": [
@@ -48,7 +49,7 @@
         }
       }
     ],
-    "notes": "bitcoind requires RPC auth; the RelayMiner backend_url must carry the credentials. Two suppliers today. No gateway health check configured yet."
+    "notes": "bitcoind requires RPC auth; the RelayMiner backend_url must carry the credentials. Two suppliers today. No gateway health check configured yet. No public RPC exists to live-verify the probes."
   },
   "docs": "https://developer.bitcoin.org/reference/rpc/",
   "updated": "2026-09-01"

@@ -41,6 +41,7 @@
     "implementations": [
       "neutrond >= v11 (neutron-org/neutron)"
     ],
+    "docs": "https://docs.neutron.org/operators/running-a-node",
     "sync": "full",
     "min_disk_gb": 800,
     "healthcheck": [

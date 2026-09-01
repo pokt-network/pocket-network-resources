@@ -36,6 +36,7 @@
     "implementations": [
       "exrpd (xrplevm node) >= 8.0"
     ],
+    "docs": "https://docs.xrplevm.org/pages/operators",
     "sync": "archive",
     "min_disk_gb": 800,
     "healthcheck": [
@@ -97,7 +98,7 @@
         "notes": "Sends a request over the socket rather than only opening it: a handshake alone proves nothing."
       }
     ],
-    "notes": "Archive state expected (gateway probes block 1002479). JSON_RPC on this service is the EVM endpoint, not CometBFT."
+    "notes": "Archive state expected (gateway probes block 1002479). JSON_RPC on this service is the EVM endpoint, not CometBFT. Archival balance verified by the gateway team against archival nodes; public pruned endpoints cannot confirm it."
   },
   "docs": "https://docs.xrplevm.org/",
   "updated": "2026-09-01"

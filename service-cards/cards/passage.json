@@ -41,6 +41,7 @@
     "implementations": [
       "passage >= v2.4 (envadiv/Passage3D)"
     ],
+    "docs": "https://github.com/envadiv/Passage3D",
     "sync": "full",
     "min_disk_gb": 300,
     "healthcheck": [

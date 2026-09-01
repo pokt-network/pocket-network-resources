@@ -41,6 +41,7 @@
     "implementations": [
       "provenanced >= v1.26 (provenance-io/provenance)"
     ],
+    "docs": "https://github.com/provenance-io/provenance",
     "sync": "full",
     "min_disk_gb": 800,
     "healthcheck": [

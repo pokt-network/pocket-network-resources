@@ -31,6 +31,7 @@
     "implementations": [
       "op-geth + op-node (Fraxtal release)"
     ],
+    "docs": "https://github.com/FraxFinance/fraxtal-node",
     "sync": "full",
     "min_disk_gb": 800,
     "healthcheck": [

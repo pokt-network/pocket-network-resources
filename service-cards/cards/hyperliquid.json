@@ -31,6 +31,7 @@
     "implementations": [
       "hl-node (Hyperliquid non-validating node) with --serve-evm-rpc"
     ],
+    "docs": "https://github.com/hyperliquid-dex/node",
     "sync": "full",
     "min_disk_gb": 500,
     "healthcheck": [

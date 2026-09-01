@@ -35,8 +35,29 @@ service-cards/
   `eth_syncing == false`, the archival `eth_getBalance` probe with its verified balance,
   and a request-over-websocket check. Chain ids and archival balances are copied from
   `pocket-health-checks.yaml`; keep the two files in sync.
+- `serving.docs`: the node-operator run guide for that chain (official docs page where one exists,
+  otherwise the node's GitHub repository). `docs` at the top level is the consumer-facing API
+  documentation. Both URLs were checked reachable on the card's `updated` date.
 - `specs[]` points at the living Ethereum execution-apis OpenRPC document with no `sha256`.
 - `updated` is the date of the last card revision.
+
+## Verification status
+
+Every card's `JSON_RPC`, `REST` and `COMET_BFT` probes were executed against public endpoints on
+2026-09-01 and the `expect.matches` values confirmed live, with these exceptions, each also noted
+in the card itself:
+
+- `bitcoin`: no public RPC; chain string from Bitcoin Core semantics.
+- `stargaze`: chain id from the cosmos chain-registry; public RPCs did not answer.
+- `taiko-hekla-testnet`: public RPC retired; chain id from chainlist.
+- Archival `eth_getBalance` probes on `arb-one`, `blast`, `bsc`, `xrplevm`: public endpoints are
+  pruned; balances come from `pocket-health-checks.yaml`, verified by the gateway team against
+  archival nodes.
+- `WEBSOCKET` probes were not executed (HTTP-only verification run).
+
+Chain ids were cross-checked against chainlist (EVM) and the cosmos chain-registry (CometBFT
+chains) independently of the gateway config. Implementations, versions, ports and disk sizes are
+owner assertions from project documentation, not measured.
 
 ## Validate
 

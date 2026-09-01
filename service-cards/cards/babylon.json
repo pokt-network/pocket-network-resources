@@ -41,6 +41,7 @@
     "implementations": [
       "babylond >= v1.0 (babylonlabs-io/babylon)"
     ],
+    "docs": "https://github.com/babylonlabs-io/babylon",
     "sync": "full",
     "min_disk_gb": 500,
     "healthcheck": [

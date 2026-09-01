@@ -31,6 +31,7 @@
     "implementations": [
       "op-geth (celo fork) + op-node (celo-org/optimism)"
     ],
+    "docs": "https://docs.celo.org/cel2/operators/run-node",
     "sync": "full",
     "min_disk_gb": 1500,
     "healthcheck": [
