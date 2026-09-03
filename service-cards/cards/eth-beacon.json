@@ -24,7 +24,10 @@
   "specs": [
     {
       "kind": "openapi",
-      "url": "https://ethereum.github.io/beacon-APIs/releases/v3.0.0/beacon-node-oapi.json"
+      "api": "ethereum-beacon-api",
+      "url": "https://ethereum.github.io/beacon-APIs/releases/v3.0.0/beacon-node-oapi.json",
+      "sha256": "6351940089d620b30b76a3b9fbb86eae90d91c2179362eb3b940c33810b9139a",
+      "notes": "Release-addressed URL (v3.0.0, latest stable release), so the document is pinned."
     }
   ],
   "access": "public",
@@ -80,5 +83,5 @@
     "notes": "Historical state queries (finalized states, past epochs) need a consensus client running in archive mode. Checkpoint-synced nodes serve head-of-chain only."
   },
   "docs": "https://ethereum.github.io/beacon-APIs/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

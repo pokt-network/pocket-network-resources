@@ -22,7 +22,14 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    },
+    {
+      "kind": "docs",
+      "api": "arbitrum-arb-json-rpc",
+      "url": "https://docs.arbitrum.io/build-decentralized-apps/arbitrum-vs-ethereum/rpc-methods",
+      "notes": "No machine-readable spec is published for this API; this is the canonical human-readable method reference."
     }
   ],
   "access": "public",
@@ -97,5 +104,5 @@
     "notes": "Archive state expected (gateway probes block 3,100,000). Classic (pre-Nitro) blocks need the classic-node archive for historical eth_call; most consumers do not require it. Archival balance verified by the gateway team against archival nodes; public pruned endpoints cannot confirm it."
   },
   "docs": "https://docs.arbitrum.io/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

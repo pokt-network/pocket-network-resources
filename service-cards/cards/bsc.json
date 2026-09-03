@@ -21,6 +21,7 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
     }
   ],
@@ -97,5 +98,5 @@
     "notes": "Archive state expected (gateway probes block 33,054,480). ~3s blocks; consumers issue very wide eth_getLogs ranges. Archival balance verified by the gateway team against archival nodes; public pruned endpoints cannot confirm it."
   },
   "docs": "https://docs.bnbchain.org/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

@@ -22,7 +22,14 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    },
+    {
+      "kind": "docs",
+      "api": "linea-json-rpc",
+      "url": "https://docs.linea.build/api/reference",
+      "notes": "No machine-readable spec is published for this API; this is the canonical human-readable method reference."
     }
   ],
   "access": "public",
@@ -98,5 +105,5 @@
     "notes": "Archive state expected (gateway probes block 10000000)."
   },
   "docs": "https://docs.linea.build/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

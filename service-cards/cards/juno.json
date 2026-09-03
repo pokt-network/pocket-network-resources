@@ -34,6 +34,19 @@
     "cosmos-rest",
     "cosmos-grpc"
   ],
+  "specs": [
+    {
+      "kind": "openapi",
+      "api": "cometbft-rpc",
+      "url": "https://raw.githubusercontent.com/cometbft/cometbft/v0.38.x/rpc/openapi/openapi.yaml",
+      "notes": "Covers JSON_RPC (POST / envelope), COMET_BFT (URI style) and the /websocket subscriptions on :26657."
+    },
+    {
+      "kind": "openapi",
+      "api": "cosmos-rest",
+      "url": "https://raw.githubusercontent.com/CosmosContracts/juno/main/app/endpoints/openapi.yaml"
+    }
+  ],
   "access": "public",
   "results": "deterministic",
   "serving": {
@@ -119,5 +132,5 @@
     "notes": "JSON_RPC here is CometBFT's JSON-RPC mode on the RPC port, the same server COMET_BFT addresses in URI style; websocket subscriptions are on that port at /websocket."
   },
   "docs": "https://docs.junonetwork.io/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

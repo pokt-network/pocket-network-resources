@@ -21,6 +21,7 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
     }
   ],
@@ -96,5 +97,5 @@
     "notes": "Archive state expected (gateway probes block 5,000,000): run with pruning disabled from genesis. Set backend_url to the /ext/bc/C/rpc path, not the node root."
   },
   "docs": "https://build.avax.network/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

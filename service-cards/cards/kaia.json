@@ -22,7 +22,14 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    },
+    {
+      "kind": "openapi",
+      "api": "kaia-json-rpc",
+      "url": "https://raw.githubusercontent.com/kaiachain/kaia-sdk/dev/web3rpc/rpc-specs/paths/kaia/index.yaml",
+      "notes": "Multi-file OpenAPI root for the kaia_ namespace; resolves $ref siblings under web3rpc/rpc-specs/. Sibling roots exist per namespace (klay, net, txpool, debug)."
     }
   ],
   "access": "public",
@@ -97,5 +104,5 @@
     "notes": "Archive state expected (gateway probes block 170000000)."
   },
   "docs": "https://docs.kaia.io/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

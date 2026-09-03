@@ -21,6 +21,7 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
     }
   ],
@@ -80,5 +81,5 @@
     "notes": "No supplier currently serves websocket."
   },
   "docs": "https://docs.polygon.technology/zkEVM/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

@@ -21,6 +21,7 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
     }
   ],
@@ -79,5 +80,5 @@
     "notes": "Chain id 999 collides with a stale Wanchain testnet entry in chainlist; the assertion above is HyperEVM."
   },
   "docs": "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

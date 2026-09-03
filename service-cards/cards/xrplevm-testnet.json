@@ -26,6 +26,7 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
     }
   ],
@@ -84,5 +85,5 @@
     "notes": "Testnet."
   },
   "docs": "https://docs.xrplevm.org/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

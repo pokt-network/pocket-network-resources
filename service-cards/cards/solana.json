@@ -18,6 +18,20 @@
     "solana-json-rpc",
     "solana-pubsub"
   ],
+  "specs": [
+    {
+      "kind": "docs",
+      "api": "solana-json-rpc",
+      "url": "https://solana.com/docs/rpc/http",
+      "notes": "Solana publishes no OpenRPC/OpenAPI document; this is the canonical HTTP method reference."
+    },
+    {
+      "kind": "docs",
+      "api": "solana-pubsub",
+      "url": "https://solana.com/docs/rpc/websocket",
+      "notes": "Websocket subscription method reference; no machine-readable spec exists."
+    }
+  ],
   "access": "public",
   "results": "deterministic",
   "serving": {
@@ -72,5 +86,5 @@
     "notes": "Run with --full-rpc-api and --no-voting. getProgramAccounts on large programs is expensive; enable --account-index program-id and spl-token-owner/mint. Historical getBlock/getTransaction beyond local ledger needs BigTable or a warehouse node; most traffic is head-of-chain."
   },
   "docs": "https://solana.com/docs/rpc",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

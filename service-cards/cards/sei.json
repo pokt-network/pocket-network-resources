@@ -38,7 +38,19 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    },
+    {
+      "kind": "openapi",
+      "api": "cometbft-rpc",
+      "url": "https://raw.githubusercontent.com/sei-protocol/sei-chain/main/sei-tendermint/rpc/openapi/openapi.yaml",
+      "notes": "Covers COMET_BFT (URI style on :26657) and CometBFT's own JSON-RPC envelope and /websocket on that port. JSON_RPC and WEBSOCKET on this service are the EVM endpoint (:8545), covered by the ethereum-json-rpc entry."
+    },
+    {
+      "kind": "openapi",
+      "api": "cosmos-rest",
+      "url": "https://raw.githubusercontent.com/sei-protocol/sei-chain/main/docs/swagger-ui/swagger.yml"
     }
   ],
   "access": "public",
@@ -105,5 +117,5 @@
     "notes": "JSON_RPC on this service is the EVM endpoint (:8545), not CometBFT; CometBFT is COMET_BFT. eth_syncing is not supported by the Sei EVM RPC; use eth_blockNumber lag against a reference instead."
   },
   "docs": "https://docs.sei.io/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

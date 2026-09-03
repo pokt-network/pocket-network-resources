@@ -22,7 +22,14 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    },
+    {
+      "kind": "docs",
+      "api": "zksync-zks-json-rpc",
+      "url": "https://docs.zksync.io/zksync-protocol/api/zks-rpc",
+      "notes": "No machine-readable spec is published for this API; this is the canonical human-readable method reference. zkLink Nova is ZK Stack, so the ZKsync zks_ reference applies."
     }
   ],
   "access": "public",
@@ -79,5 +86,5 @@
     ]
   },
   "docs": "https://docs.zklink.io/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

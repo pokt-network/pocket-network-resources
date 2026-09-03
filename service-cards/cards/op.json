@@ -21,6 +21,7 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
     }
   ],
@@ -97,5 +98,5 @@
     "notes": "Archive state expected (gateway probes block 8121800). Pre-Bedrock history (before block 105,235,063) needs the legacy l2geth archive; most consumers do not require it."
   },
   "docs": "https://docs.optimism.io/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

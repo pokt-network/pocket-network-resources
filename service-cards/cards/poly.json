@@ -22,7 +22,14 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
+    },
+    {
+      "kind": "docs",
+      "api": "polygon-bor-json-rpc",
+      "url": "https://docs.polygon.technology/pos/reference/rpc-endpoints/",
+      "notes": "No machine-readable spec is published for this API; this is the canonical human-readable method reference."
     }
   ],
   "access": "public",
@@ -98,5 +105,5 @@
     "notes": "Archive state expected (gateway probes block 5,000,000). Consumers expect eth_getLogs over wide block ranges; keep bor log-index caps at defaults or higher."
   },
   "docs": "https://docs.polygon.technology/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

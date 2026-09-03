@@ -23,6 +23,20 @@
     "tron-http-api",
     "ethereum-json-rpc"
   ],
+  "specs": [
+    {
+      "kind": "docs",
+      "api": "tron-http-api",
+      "url": "https://developers.tron.network/reference/full-node-api-overview",
+      "notes": "java-tron publishes no OpenAPI document for the /wallet HTTP API."
+    },
+    {
+      "kind": "docs",
+      "api": "ethereum-json-rpc",
+      "url": "https://developers.tron.network/reference/json-rpc-api-overview",
+      "notes": "TRON's JSON-RPC implements a subset of eth_ methods with TRON-specific semantics; do not assume the Ethereum execution-apis OpenRPC applies."
+    }
+  ],
   "access": "public",
   "results": "deterministic",
   "serving": {
@@ -88,5 +102,5 @@
     "notes": "The HTTP API and the JSON-RPC are different ports on java-tron; the RelayMiner must route REST to :8090 and JSON_RPC to :8545 (or the /jsonrpc path)."
   },
   "docs": "https://developers.tron.network/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

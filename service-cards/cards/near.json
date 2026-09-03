@@ -19,7 +19,8 @@
   "specs": [
     {
       "kind": "openapi",
-      "url": "https://github.com/near/nearcore/blob/master/chain/jsonrpc/openapi/openapi.json"
+      "api": "near-json-rpc",
+      "url": "https://raw.githubusercontent.com/near/nearcore/master/chain/jsonrpc/openapi/openapi.json"
     }
   ],
   "access": "public",
@@ -79,5 +80,5 @@
     "notes": "Sync from the official snapshot; genesis sync is not practical. Set the RPC to bind non-locally and raise the default request limits."
   },
   "docs": "https://docs.near.org/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

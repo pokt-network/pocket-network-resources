@@ -38,7 +38,19 @@ service-cards/
 - `serving.docs`: the node-operator run guide for that chain (official docs page where one exists,
   otherwise the node's GitHub repository). `docs` at the top level is the consumer-facing API
   documentation. Both URLs were checked reachable on the card's `updated` date.
-- `specs[]` points at the living Ethereum execution-apis OpenRPC document with no `sha256`.
+- `specs[]`: every entry carries `api`, naming the `apis[]` contract it documents, so an agent never
+  has to guess which transport or namespace a document covers. `kind` is `openrpc`/`openapi` for
+  machine-readable documents and `docs` where the project publishes only a human-readable method
+  reference (Solana, Bitcoin Core, TRON, and the arb_/bor_/linea_/zks_ namespaces); `notes` says so.
+  URLs are GitHub raw files (or the project's own served document) that consumers can fetch
+  directly. Living branch URLs carry no `sha256`; the one release-addressed URL (`eth-beacon`,
+  Beacon API v3.0.0) is pinned with `sha256`.
+- Cosmos SDK cards carry two entries: the CometBFT `rpc/openapi/openapi.yaml` for the branch the
+  chain runs (`cometbft-rpc`, covering `JSON_RPC`, `COMET_BFT` and `/websocket`), and the chain's
+  own gRPC-gateway swagger (`cosmos-rest`). Chains that publish no swagger (akash uses akash-api;
+  celestia, fetch, passage and cosmoshub have none or an empty stub) point at the generic
+  cosmos-sdk swagger for their SDK release line, noted in the entry. No `GRPC` spec is listed:
+  use server reflection or the chain's `proto/` tree.
 - `updated` is the date of the last card revision.
 
 ## Verification status

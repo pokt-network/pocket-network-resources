@@ -1,6 +1,6 @@
 {
   "schema": "pocket-service-card/v1",
-  "description": "Namada mainnet (namada.5f5de2dd1b88cba30586420). CometBFT RPC, Cosmos SDK REST and gRPC.",
+  "description": "Namada mainnet (namada.5f5de2dd1b88cba30586420). CometBFT RPC only (JSON-RPC and URI modes, websocket subscriptions); not a Cosmos SDK chain, so no REST or gRPC.",
   "rpc_types": [
     {
       "type": "JSON_RPC",
@@ -21,6 +21,14 @@
   ],
   "apis": [
     "cometbft-rpc"
+  ],
+  "specs": [
+    {
+      "kind": "openapi",
+      "api": "cometbft-rpc",
+      "url": "https://raw.githubusercontent.com/cometbft/cometbft/v0.37.x/rpc/openapi/openapi.yaml",
+      "notes": "Namada runs on CometBFT v0.37; covers JSON_RPC, COMET_BFT and /websocket on :26657. Namada state is read through abci_query, not Cosmos REST."
+    }
   ],
   "access": "public",
   "results": "deterministic",
@@ -82,8 +90,8 @@
         }
       }
     ],
-    "notes": "JSON_RPC here is CometBFT's JSON-RPC mode on the RPC port, the same server COMET_BFT addresses in URI style; websocket subscriptions are on that port at /websocket. Not Cosmos SDK: Namada runs its own ledger on CometBFT, so JSON_RPC (CometBFT) works but the Cosmos REST and gRPC paths do not exist; REST and GRPC intents are optional in name only, nothing answers them. No gateway health check configured yet."
+    "notes": "JSON_RPC here is CometBFT's JSON-RPC mode on the RPC port, the same server COMET_BFT addresses in URI style; websocket subscriptions are on that port at /websocket. Not Cosmos SDK: Namada runs its own ledger on CometBFT, so JSON_RPC (CometBFT) works but the Cosmos REST (:1317) and gRPC (:9090) servers do not exist; do not stake REST or GRPC for this service. No gateway health check configured yet."
   },
   "docs": "https://docs.namada.net/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

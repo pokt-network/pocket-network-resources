@@ -21,6 +21,7 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
     }
   ],
@@ -79,5 +80,5 @@
     "notes": "Testnet. No supplier currently serves websocket; JSON_RPC only is fine."
   },
   "docs": "https://docs.polygon.technology/pos/get-started/building-on-polygon/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

@@ -21,6 +21,7 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
     }
   ],
@@ -98,5 +99,5 @@
     "notes": "Archive state expected (gateway probes block 20000000)."
   },
   "docs": "https://docs.gnosischain.com/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

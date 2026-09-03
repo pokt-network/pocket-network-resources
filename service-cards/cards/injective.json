@@ -34,6 +34,20 @@
     "cosmos-rest",
     "cosmos-grpc"
   ],
+  "specs": [
+    {
+      "kind": "openapi",
+      "api": "cometbft-rpc",
+      "url": "https://raw.githubusercontent.com/cometbft/cometbft/v0.38.x/rpc/openapi/openapi.yaml",
+      "notes": "Covers JSON_RPC (POST / envelope), COMET_BFT (URI style) and the /websocket subscriptions on :26657."
+    },
+    {
+      "kind": "openapi",
+      "api": "cosmos-rest",
+      "url": "https://sentry.lcd.injective.network/swagger/swagger.yaml",
+      "notes": "Served by Injective's public LCD; injective-core is not published as source, so no GitHub raw file exists."
+    }
+  ],
   "access": "public",
   "results": "deterministic",
   "serving": {
@@ -119,5 +133,5 @@
     "notes": "JSON_RPC here is CometBFT's JSON-RPC mode on the RPC port, the same server COMET_BFT addresses in URI style; websocket subscriptions are on that port at /websocket. injectived also exposes an EVM JSON-RPC (chain id 1776) on :8545; it is not probed by the gateway and not what JSON_RPC means on this service. No gateway health check configured for this service yet."
   },
   "docs": "https://docs.injective.network/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

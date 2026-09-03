@@ -26,6 +26,7 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
     }
   ],
@@ -101,5 +102,5 @@
     "notes": "Archive state expected (gateway probes block 1002479). JSON_RPC on this service is the EVM endpoint, not CometBFT. Archival balance verified by the gateway team against archival nodes; public pruned endpoints cannot confirm it."
   },
   "docs": "https://docs.xrplevm.org/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

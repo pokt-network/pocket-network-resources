@@ -11,6 +11,14 @@
   "apis": [
     "bitcoin-core-json-rpc"
   ],
+  "specs": [
+    {
+      "kind": "docs",
+      "api": "bitcoin-core-json-rpc",
+      "url": "https://developer.bitcoin.org/reference/rpc/",
+      "notes": "Bitcoin Core publishes no OpenRPC/OpenAPI document; the authoritative per-method reference is `bitcoin-cli help <method>` on the running version."
+    }
+  ],
   "access": "public",
   "results": "deterministic",
   "serving": {
@@ -52,5 +60,5 @@
     "notes": "bitcoind requires RPC auth; the RelayMiner backend_url must carry the credentials. Two suppliers today. No gateway health check configured yet. No public RPC exists to live-verify the probes."
   },
   "docs": "https://developer.bitcoin.org/reference/rpc/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

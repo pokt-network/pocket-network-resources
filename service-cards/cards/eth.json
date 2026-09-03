@@ -21,6 +21,7 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
     }
   ],
@@ -99,5 +100,5 @@
     "notes": "Archive state expected: consumers send eth_call/eth_getBalance at historical blocks and the gateway probes for it. A pruned node fails those requests. Also serve debug_/trace_ if your client supports them."
   },
   "docs": "https://ethereum.org/developers/docs/apis/json-rpc/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

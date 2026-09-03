@@ -24,6 +24,7 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "sui-json-rpc",
       "url": "https://raw.githubusercontent.com/MystenLabs/sui/main/crates/sui-open-rpc/spec/openrpc.json"
     }
   ],
@@ -82,5 +83,5 @@
     "notes": "Start from a formal or DB snapshot; pruning defaults keep only recent history. Expect JSON-RPC to be deprecated upstream; GRPC is the likely successor transport for this service."
   },
   "docs": "https://docs.sui.io/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

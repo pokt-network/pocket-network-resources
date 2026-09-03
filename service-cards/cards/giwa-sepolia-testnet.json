@@ -21,6 +21,7 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
     }
   ],
@@ -79,5 +80,5 @@
     "notes": "Testnet. Gateway probes websocket but no supplier serves it yet; standing up WS is welcome."
   },
   "docs": "https://docs.giwa.io/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }

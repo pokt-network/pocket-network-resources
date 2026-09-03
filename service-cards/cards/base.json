@@ -21,6 +21,7 @@
   "specs": [
     {
       "kind": "openrpc",
+      "api": "ethereum-json-rpc",
       "url": "https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json"
     }
   ],
@@ -97,5 +98,5 @@
     "notes": "Archive state expected (gateway probes block 4,504,400). Unsafe head may lag the sequencer briefly; eth_syncing must still be false."
   },
   "docs": "https://docs.base.org/",
-  "updated": "2026-09-01"
+  "updated": "2026-09-03"
 }
