@@ -7,6 +7,12 @@ Common Resources in use on the Pocket Network Protocol
 - Stratos downloader for fast decentralized snapshot sync: https://github.com/easy2stake/poktsnap/tree/main/oneshot-downloader
 - Backup http resource: https://snaps.easy2stake.com/pocket/
 
+## Service Builder
+
+A Claude skill for building, registering, and deploying any HTTP API service on Pocket Network. It walks through designing the backend's response contract, authoring and encoding the service metadata card, checking the catalog for naming conflicts, staking a supplier, running a RelayMiner, and testing relays, and it fetches governance parameters live instead of hardcoding them. Bundled scripts and templates cover card validation, catalog checks, backend linting, and deployment configs.
+
+- Skill file: [`service-builder/pocket-service-builder.skill`](./service-builder/pocket-service-builder.skill)
+
 ## Service Cards
 
 On-chain `pocket-service-card/v1` metadata for PNF-owned services, one JSON per service, plus the
