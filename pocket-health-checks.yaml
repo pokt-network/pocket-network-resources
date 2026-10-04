@@ -2949,3 +2949,37 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: critical_error
+
+- service_id: prediction-market-intel
+  # Prediction Market Intelligence: an agentic REST service (not a blockchain), so no
+  # sync_check or sync_allowance. Identity, readiness, and one functional check, matching
+  # the on-chain card's serving.healthcheck. top-markets may fetch live from Polymarket on
+  # a cache miss (up to ~12s), so that check gets a longer timeout.
+  check_interval: 30s
+  enabled: true
+  checks:
+    - name: version
+      type: rest
+      method: GET
+      path: /v1/version
+      expected_status_code: 200
+      expected_response_contains: '"service":"prediction-market-intel"'
+      timeout: 5s
+      reputation_signal: critical_error
+    - name: health
+      type: rest
+      method: GET
+      path: /v1/health
+      expected_status_code: 200
+      expected_response_contains: '"status":"ok"'
+      timeout: 5s
+      reputation_signal: major_error
+    - name: top-markets
+      type: rest
+      method: POST
+      path: /v1/top-markets
+      body: '{"limit":1}'
+      expected_status_code: 200
+      expected_response_contains: '"count":1'
+      timeout: 15s
+      reputation_signal: major_error
