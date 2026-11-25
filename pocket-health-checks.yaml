@@ -2949,3 +2949,36 @@
       expected_status_code: 200
       timeout: 5s
       reputation_signal: critical_error
+
+- service_id: treasury-capital-score
+  # TCS-6 Crypto Treasury Capital Score: an agentic REST service (not a blockchain), so no
+  # sync_check or sync_allowance. Identity, readiness, and one deterministic functional
+  # check, matching the service card's serving.healthcheck.
+  check_interval: 30s
+  enabled: true
+  checks:
+    - name: version
+      type: rest
+      method: GET
+      path: /v1/version
+      expected_status_code: 200
+      expected_response_contains: '"treasury-capital-score"'
+      timeout: 5s
+      reputation_signal: critical_error
+    - name: health
+      type: rest
+      method: GET
+      path: /v1/health
+      expected_status_code: 200
+      expected_response_contains: '"status":"ok"'
+      timeout: 5s
+      reputation_signal: major_error
+    - name: entities
+      type: rest
+      method: POST
+      path: /v1/tcs6/entities
+      body: '{}'
+      expected_status_code: 200
+      expected_response_contains: '"method_version":"tcs-6/1.0"'
+      timeout: 5s
+      reputation_signal: major_error
