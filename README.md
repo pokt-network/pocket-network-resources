@@ -79,13 +79,15 @@ Each seed node advertises a unique external port through the P2P gateway, mappin
 
 #### Web Gateway (HTTPS) Endpoints
 
-All seed nodes expose web services through the HTTPS gateway with HTTP/2 support.
+PNF nodes (seed-one, seed-two, seed-three) are reachable on P2P only. Their RPC, REST and gRPC are served
+through [Sauron](#sauron-access): use `sauron-rpc.infra.pocket.network`, `sauron-api.infra.pocket.network`
+and `sauron-grpc.infra.pocket.network:443`. The per-node `rpc-*`, `api-*` and `grpc-*` hostnames were
+retired on 2026-11-27.
+
+NodeFleet nodes expose their own web endpoints:
 
 | Seed                 | RPC Endpoint                                     | API Endpoint                                     | gRPC Endpoint                                     |
 |----------------------|--------------------------------------------------|--------------------------------------------------|---------------------------------------------------|
-| seed-one (PNF)       | rpc-seed-one.infra.pocket.network                | api-seed-one.infra.pocket.network                | grpc-seed-one.infra.pocket.network                |
-| seed-two (PNF)       | rpc-seed-two.infra.pocket.network                | api-seed-two.infra.pocket.network                | grpc-seed-two.infra.pocket.network                |
-| seed-three (PNF)     | rpc-seed-three.infra.pocket.network              | api-seed-three.infra.pocket.network              | grpc-seed-three.infra.pocket.network              |
 | seed1-eu (NodeFleet) | rpc.seed1.shannon-mainnet.eu.nodefleet.net       | api.seed1.shannon-mainnet.eu.nodefleet.net       | grpc.seed1.shannon-mainnet.eu.nodefleet.net       |
 | seed1-us (NodeFleet) | rpc.seed1.shannon-mainnet.us.nodefleet.net       | api.seed1.shannon-mainnet.us.nodefleet.net       | grpc.seed1.shannon-mainnet.us.nodefleet.net       |
 | validator1 (NodeFleet) | rpc.validator1.shannon-mainnet.eu.nodefleet.net | api.validator1.shannon-mainnet.eu.nodefleet.net | —                                                 |
@@ -148,16 +150,15 @@ Each seed node advertises a unique external port through the P2P gateway, mappin
 
 #### Web Gateway (HTTPS) Endpoints
 
-All seed nodes expose web services through the HTTPS gateway with HTTP/2 support.
+PNF nodes (seed-one, val-one to val-five) are reachable on P2P only. Their RPC, REST and gRPC are served
+through [Sauron](#sauron-access): use `sauron-rpc.beta.infra.pocket.network`,
+`sauron-api.beta.infra.pocket.network` and `sauron-grpc.beta.infra.pocket.network:443`. The per-node
+hostnames were retired on 2026-11-27.
+
+NodeFleet nodes expose their own web endpoints:
 
 | Node                      | RPC Endpoint                                       | API Endpoint                                       | gRPC Endpoint                                       |
 |---------------------------|----------------------------------------------------|----------------------------------------------------|-----------------------------------------------------|
-| seed-one (PNF)            | rpc-seed-one.beta.infra.pocket.network             | api-seed-one.beta.infra.pocket.network             | grpc-seed-one.beta.infra.pocket.network             |
-| val-one (PNF)             | rpc-val-one.beta.infra.pocket.network              | api-val-one.beta.infra.pocket.network              | grpc-val-one.beta.infra.pocket.network              |
-| val-two (PNF)             | rpc-val-two.beta.infra.pocket.network              | api-val-two.beta.infra.pocket.network              | grpc-val-two.beta.infra.pocket.network              |
-| val-three (PNF)           | rpc-val-three.beta.infra.pocket.network            | api-val-three.beta.infra.pocket.network            | grpc-val-three.beta.infra.pocket.network            |
-| val-four (PNF)            | rpc-val-four.beta.infra.pocket.network             | api-val-four.beta.infra.pocket.network             | grpc-val-four.beta.infra.pocket.network             |
-| val-five (PNF)            | rpc-val-five.beta.infra.pocket.network             | api-val-five.beta.infra.pocket.network             | grpc-val-five.beta.infra.pocket.network             |
 | seed1-eu (NodeFleet)      | rpc.seed1.shannon-beta.eu.nodefleet.net            | api.seed1.shannon-beta.eu.nodefleet.net            | grpc.seed1.shannon-beta.eu.nodefleet.net            |
 | seed1-us (NodeFleet)      | rpc.seed1.shannon-beta.us.nodefleet.net            | api.seed1.shannon-beta.us.nodefleet.net            | grpc.seed1.shannon-beta.us.nodefleet.net            |
 | validator1-eu (NodeFleet) | rpc.validator1.shannon-beta.eu.nodefleet.net       | api.validator1.shannon-beta.eu.nodefleet.net       | —                                                   |
@@ -169,21 +170,18 @@ All seed nodes expose web services through the HTTPS gateway with HTTP/2 support
 
 ### P2P TCP Connectivity
 
-Test TCP connectivity to each seed node's P2P port and verify node identity:
+Test TCP connectivity to a node's P2P port (host and port from the tables above):
 
 ```bash
-P2P=[P2P_EXTERNAL_ADDRESS] \
-RPC=[RPC_GATEWAY_ADDRESS] \
-timeout 3 nc -zv $P2P 26661 && \
-curl -s https://$RPC/status | \
-jq -r '"✅ Moniker: " + .result.node_info.moniker + " | P2P Listen: " + .result.node_info.listen_addr'
+timeout 3 nc -zv seed-one.p2p.infra.pocket.network 26662
 ```
 
-This verifies both TCP connectives and confirms the correct node is responding via its moniker.
+PNF nodes have no public RPC, so their identity is checked from the P2P handshake (the node ID in the
+`id@host:port` address), not through a per-node `/status`.
 
 ### Web Endpoint Tests
 
-Test HTTPS endpoints for each seed node:
+Test the HTTPS endpoints (Sauron for PNF, or a NodeFleet node's own endpoints):
 
 ```bash
 # Check RPC Endpoint
